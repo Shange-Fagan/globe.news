@@ -40,6 +40,7 @@
   fetch('./moon_landings.json').then(r => r.json()).then(landingSites => {
     moon.labelsData(landingSites);
 
+
     // custom globe material
     const globeMaterial = moon.globeMaterial();
     globeMaterial.bumpScale = 10;
@@ -56,12 +57,15 @@
       
   }); 
 
-  const animate = () => {
-      requestAnimationFrame(animate);
-          moon.rotation.y += 0.01;
-    }
+  moon.controls().autoRotate = true;
+  moon.controls().autoRotateSpeed = 0.85;
 
-  animate();  
+  //const animate = () => {
+      //requestAnimationFrame(animate);
+          //moon.rotation.y += 0.01;
+    //}
+
+  //animate();  
 
  
 </script>
