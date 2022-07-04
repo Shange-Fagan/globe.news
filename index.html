@@ -40,7 +40,7 @@
     moon.labelsData(landingSites);
 
     // custom globe material
-    const globeMaterial = world.globeMaterial();
+    const globeMaterial = moon.globeMaterial();
     globeMaterial.bumpScale = 10;
     new THREE.TextureLoader().load('//unpkg.com/three-globe/example/img/earth-water.png', texture => {
       globeMaterial.specularMap = texture;
