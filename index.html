@@ -31,8 +31,8 @@
     .labelColor(d => colorScale(d.agency))
     .labelLabel(d => `
         <div><b>${d.country}</b></div>
-        <div><rssapp-wall id="mCpgt2tTeFvGeNIf"></rssapp-wall><script src="https://widget.rss.app/v1/wall.js" type="text/javascript" async></script></div>
-        <div></div>
+        <div>${d.agency} - ${d.program} Program</div>
+        <div>Landing on <i>${new Date(d.date).toLocaleDateString()}</i></div>
       `)
     .onLabelClick(d => window.open(d.url, '_blank'))
     (elem);
