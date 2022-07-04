@@ -53,13 +53,13 @@
       const directionalLight = moon.scene().children.find(obj3d => obj3d.type === 'DirectionalLight');
       directionalLight && directionalLight.position.set(1, 1, 1); // change light position to see the specularMap's effect
     });
+      
+  }); 
 
-    const animate = () => {
+  const animate = () => {
       requestAnimationFrame(animate);
           moon.rotation.y += 0.01;
     }
-      
-  }); 
 
   animate();  
 
