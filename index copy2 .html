@@ -30,14 +30,14 @@
     .labelDotOrientation(d => labelsTopOrientation.has(d.label) ? 'top' : 'bottom')
     .labelColor(d => colorScale(d.agency))
     .labelLabel(d => `
-        <div><b>${d.label}</b></div>
+        <div><b>${d.country}</b></div>
         <div>${d.agency} - ${d.program} Program</div>
         <div>Landing on <i>${new Date(d.date).toLocaleDateString()}</i></div>
       `)
     .onLabelClick(d => window.open(d.url, '_blank'))
     (elem);
 
-  fetch('./moon_landings.json').then(r => r.json()).then(landingSites => {
+  fetch('./country_codes.json').then(r => r.json()).then(landingSites => {
     moon.labelsData(landingSites);
 
 

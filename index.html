@@ -1,72 +1,42 @@
 <head>
   <style> body { margin: 0; } </style>
 
-  <script src="//unpkg.com/d3-array"></script>
-  <script src="//unpkg.com/d3-scale"></script>
-
-  <script src="//unpkg.com/three"></script>
   <script src="//unpkg.com/globe.gl"></script>
-  <!--<script src="../../dist/globe.gl.js"></script>-->
+<!--  <script src="../../dist/globe.gl.js"></script>-->
 </head>
-<rssapp-ticker id="WnIWA7UzVTCyLaaW"></rssapp-ticker><script src="https://widget.rss.app/v1/ticker.js" type="text/javascript" async></script>
+
 <body>
 <div id="globeViz"></div>
 
 <script>
-  const colorScale = d3.scaleOrdinal(['orangered', 'mediumblue', 'darkgreen', 'yellow']);
+  const markerSvg = `<svg viewBox="-4 0 36 36">
+    <path fill="currentColor" d="M14,0 C21.732,0 28,5.641 28,12.6 C28,23.963 14,36 14,36 C14,36 0,24.064 0,12.6 C0,5.641 6.268,0 14,0 Z"></path>
+    <circle fill="black" cx="14" cy="14" r="7"></circle>
+  </svg>`;
 
-  const labelsTopOrientation = new Set(['Apollo 12', 'Luna 2', 'Luna 20', 'Luna 21', 'Luna 24', 'LCROSS Probe']); // avoid label collisions
+  // Gen random data
+  const N = 30;
+  const gData = [...Array(N).keys()].map(() => ({
+    lat: (Math.random() - 0.5) * 180,
+    lng: (Math.random() - 0.5) * 360,
+    size: 7 + Math.random() * 30,
+    color: ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)]
+  }));
 
-  const elem = document.getElementById('globeViz');
-  const moon = Globe()
-    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-    .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-    .showGraticules(true)
-    .showAtmosphere(true) // moon has no atmosphere
-    .labelText('label')
-    .labelSize(1.7)
-    .labelDotRadius(0.4)
-    .labelDotOrientation(d => labelsTopOrientation.has(d.label) ? 'top' : 'bottom')
-    .labelColor(d => colorScale(d.agency))
-    .labelLabel(d => `
-        <div><b>${d.country}</b></div>
-        <div>${d.agency} - ${d.program} Program</div>
-        <div>Landing on <i>${new Date(d.date).toLocaleDateString()}</i></div>
-      `)
-    .onLabelClick(d => window.open(d.url, '_blank'))
-    (elem);
+  Globe()
+    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
+    .htmlElementsData(gData)
+    .htmlElement(d => {
+      const el = document.createElement('div');
+      el.innerHTML = markerSvg;
+      el.style.color = d.color;
+      el.style.width = `${d.size}px`;
 
-  fetch('./moon_landings.json').then(r => r.json()).then(landingSites => {
-    moon.labelsData(landingSites);
-
-
-    // custom globe material
-    const globeMaterial = moon.globeMaterial();
-    globeMaterial.bumpScale = 10;
-    new THREE.TextureLoader().load('//unpkg.com/three-globe/example/img/earth-water.png', texture => {
-      globeMaterial.specularMap = texture;
-      globeMaterial.specular = new THREE.Color('grey');
-      globeMaterial.shininess = 15;
-    });
-
-    setTimeout(() => { // wait for scene to be populated (asynchronously)
-      const directionalLight = moon.scene().children.find(obj3d => obj3d.type === 'DirectionalLight');
-      directionalLight && directionalLight.position.set(1, 1, 1); // change light position to see the specularMap's effect
-    });
-      
-  }); 
-
-  //moon.controls().autoRotate = false;
-  //moon.controls().autoRotateSpeed = 0.85;
-
-  //const animate = () => {
-      //requestAnimationFrame(animate);
-          //moon.rotation.y += 0.01;
-    //}
-
-  //animate();  
-
- 
+      el.style['pointer-events'] = 'auto';
+      el.style.cursor = 'pointer';
+      el.onclick = () => console.info(d);
+      return el;
+    })
+    (document.getElementById('globeViz'));
 </script>
 </body>
