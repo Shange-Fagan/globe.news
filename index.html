@@ -19,8 +19,8 @@ document.head.appendChild(my_awesome_script);
   // Gen random data
   const N = 30; 
   const gData = [...Array(N).keys()].map(() => ({
-    lat: (Math.random() - 0.5) * 18,
-    lng: (Math.random() - 0.5) * 36,
+    lat: (Math.random() - 0.5) * 180,
+    lng: (Math.random() - 0.5) * 360,
     size: 7 + Math.random() * 30,
     color: ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)],
     url: "https://widget.rss.app/v1/wall.js"
