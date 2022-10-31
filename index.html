@@ -22,8 +22,8 @@ document.head.appendChild(my_awesome_script);
   const gData = [...Array(N).keys()].map(() => ({
     lat: (Math.random() - 0.5) * 180,
     lng: (Math.random() - 0.5) * 360,
-    size: 7 + Math.random() * 30,
-    color: ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)],
+    //size: 7 + Math.random() * 30,
+    //color: ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)],
     url: "https://widget.rss.app/v1/wall.js"
     
   }));
@@ -36,8 +36,8 @@ document.head.appendChild(my_awesome_script);
     .htmlElement(d => {
       const el = document.createElement('div');
       el.innerHTML.append = my_awesome_script;
-      el.style.color = d.color;
-      el.style.width = `${d.size}px`;
+      //el.style.color = d.color;
+      //el.style.width = `${d.size}px`;
 
       el.style['pointer-events'] = 'auto';
       el.style.cursor = 'pointer';
