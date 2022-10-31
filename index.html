@@ -14,6 +14,7 @@
 
 my_awesome_script.setAttribute('src','https://widget.rss.app/v1/wall.js');
 my_awesome_script.async = true;
+my_awesome_script.style.display = marker;
 
 document.head.appendChild(my_awesome_script);
   // Gen random data
@@ -34,7 +35,7 @@ document.head.appendChild(my_awesome_script);
  .htmlElementsData(gData)
     .htmlElement(d => {
       const el = document.createElement('div');
-      el.innerHTML = my_awesome_script;
+      el.innerHTML.append = my_awesome_script;
       el.style.color = d.color;
       el.style.width = `${d.size}px`;
 
