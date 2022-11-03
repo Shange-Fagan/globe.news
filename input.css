@@ -4,6 +4,7 @@
 
 .hide {
     display: none;
+    position: relative;
 }
 
 .myDIV:hover + .hide {

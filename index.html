@@ -10,7 +10,7 @@
 
 
 <body>
-<div id="globeViz">
+<div id="globeViz"></div>
 
 <script>
   var my_awesome_script = document.createElement('script');
@@ -54,6 +54,7 @@
       el.className= "hide";
       el2.setAttribute('src','https://widget.rss.app/v1/wall.js');
       el2.async = true;
+      el2.size = 25;
       return [el, el2];
 
     });
@@ -61,5 +62,4 @@
 
     (document.getElementById('globeViz'));
 </script>
-</div>
 </body>
