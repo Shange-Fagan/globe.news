@@ -30,8 +30,8 @@ document.head.appendChild(my_awesome_script);
     //size: 7 + Math.random() * 30,
     color: [{/*'red',*/}, 'white', {/*'blue', 'green'*/}][Math.round(Math.random() * 3)],
     url: "https://widget.rss.app/v1/wall.js",
-    my_awesome_script,
-    
+    display: my_awesome_script,
+
     
   }));
 
@@ -45,6 +45,11 @@ document.head.appendChild(my_awesome_script);
 
     .htmlElement(d => {
       const el = document.createElement('div');
+      <div class="hide">
+        
+      </div>
+      el.class = "myDIV";
+      el.class ="hide";
       el.innerHTML = my_awesome_script;
       
 
