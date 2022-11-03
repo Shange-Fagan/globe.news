@@ -12,3 +12,7 @@
     
   }
 
+  .myDIV2:hover {
+    display: block;
+    color: red;
+  }
