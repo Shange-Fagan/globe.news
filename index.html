@@ -33,6 +33,7 @@ document.head.appendChild(my_awesome_script);
     .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')   
     .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
  .htmlElementsData(gData)
+
     .htmlElement(d => {
       const el = document.createElement('div');
       el.appendChild = my_awesome_script;
@@ -48,7 +49,7 @@ document.head.appendChild(my_awesome_script);
       return el;
     })
           .htmlElement( style={flex: 1,
-            position: "relative"})
+            position: relative})
     (document.getElementById('globeViz'));
 </script>
 </body>
