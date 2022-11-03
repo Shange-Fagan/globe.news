@@ -9,5 +9,5 @@
 
 .myDIV:hover + .hide {
     position: relative;
-    display: inline;
+    
   }
