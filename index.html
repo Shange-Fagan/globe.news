@@ -2,7 +2,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/dist/output.css" rel="stylesheet">
-  <style> body { margin: 0; } </style>
+  
   <script src="//unpkg.com/three"></script>
   <script src="//unpkg.com/globe.gl"></script>
 <!--  <script src="../../dist/globe.gl.js"></script>-->
@@ -29,7 +29,9 @@ document.head.appendChild(my_awesome_script);
     lng: (Math.random() - 0.5) * 360,
     //size: 7 + Math.random() * 30,
     color: [{/*'red',*/}, 'white', {/*'blue', 'green'*/}][Math.round(Math.random() * 3)],
-    url: "https://widget.rss.app/v1/wall.js"
+    url: "https://widget.rss.app/v1/wall.js",
+    my_awesome_script,
+    
     
   }));
 
