@@ -19,6 +19,5 @@
 
   .myDIV2:hover + .hide2 {
     position: static;
-    display: block;
-    color: red;
+    display: inside;
   }
