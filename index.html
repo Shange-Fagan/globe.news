@@ -29,17 +29,15 @@
   const gData = [...Array(N).keys()].map(() => ({
     lat: (Math.random() - 0.5) * 180,
     lng: (Math.random() - 0.5) * 360,
-    size: 7 + Math.random() * 30,
-    color: ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)]
+    size: `${50}px`,
+    //color: ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)]
   }));
 
   const elem = document.getElementById('globeViz');
   Globe()
     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
     .htmlElementsData(gData)
-    .htmlElement(d => {
-      my_awesome_script;
-    })
+    .htmlElement(my_awesome_script)
     (elem);
     (document.getElementById('globeViz'));
 </script>
