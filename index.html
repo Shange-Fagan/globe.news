@@ -1,4 +1,7 @@
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/dist/output.css" rel="stylesheet">
   <style> body { margin: 0; } </style>
 
   <script src="//unpkg.com/globe.gl"></script>
@@ -8,6 +11,8 @@
 <body>
 <div id="globeViz"></div>
 <rssapp-wall id="tszZCksFzEB4w9UN"></rssapp-wall>
+<div class="flex">
+  <div class="flex-1">
 <script>
  
   var my_awesome_script = document.createElement('script');
@@ -47,9 +52,11 @@ document.head.appendChild(my_awesome_script);
       el.onclick = (d => window.open(d.url, '_blank'));
     
       return el;
-    })
+    })  
           .htmlElement( style={flex: 1,
             position: relative})
     (document.getElementById('globeViz'));
 </script>
+</div>
+</div>
 </body>
