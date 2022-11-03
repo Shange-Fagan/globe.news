@@ -42,7 +42,9 @@ document.head.appendChild(my_awesome_script);
     .showGraticules(true)
     .showAtmosphere(true)
     .htmlElementsData(gData)
-
+    .htmlElement(d => {
+      my_awesome_script
+    })
     //.htmlElement(d => {
       //const el = document.createElement('div');
       //el.innerHTML = my_awesome_script;
@@ -57,6 +59,7 @@ document.head.appendChild(my_awesome_script);
 
       
    // });
+
      // custom globe material
       const globeMaterial = globe.globeMaterial();
       globeMaterial.bumpScale = 10;
@@ -71,7 +74,7 @@ document.head.appendChild(my_awesome_script);
     });
       
     
-      return el;
+      
     })  
           //.htmlElement( style={flex: 1,
             //position: relative})
