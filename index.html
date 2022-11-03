@@ -28,6 +28,7 @@
     .htmlElementsData(gData)
     .htmlElement(d => {
       const el = document.createElement('div');
+      el.setAttribute('class', 'myDIV2');
       el.innerHTML = markerSvg;
       el.style.color = d.color;
       el.style.width = `${d.size}px`;
