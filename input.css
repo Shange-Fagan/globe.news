@@ -13,9 +13,10 @@
   }
 
   .hide2 {
+    position: static;
     display: none;
   }
-  
+
   .myDIV2:hover + .hide2 {
     display: block;
     color: red;
