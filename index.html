@@ -37,8 +37,26 @@
   Globe()
     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
     .htmlElementsData(gData)
-    .htmlElement(my_awesome_script)
+    .htmlElement(d => {
+      const el = document.createElement('div');
+      //el.setAttribute('src','https://widget.rss.app/v1/wall.js');
+      //el.displayURL = 'http://widget.rss.app/v1/wall.js';
+      el.innerHTML = markerSvg;
+      el.className= "myDIV";
+      //el.style.color = d.color;
+      el.style.width = `${30}px`;
+
+      el.style['pointer-events'] = 'auto';
+      el.style.cursor = 'pointer';
+      el.onclick = () => console.info(d);
+      //return el;
+      const el2 = document.createElement('script');
+      el.className= "hide";
+      el2.setAttribute('src','https://widget.rss.app/v1/wall.js');
+      el2.async = true;
+    });
     (elem);
+
     (document.getElementById('globeViz'));
 </script>
 </body>
