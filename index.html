@@ -67,7 +67,7 @@ my_awesome_script.style.display = "flex";
       globeMaterial.specularMap = texture;
       globeMaterial.specular = new THREE.Color('grey');
       globeMaterial.shininess = 15;
-
+    });
     setTimeout(() => { // wait for scene to be populated (asynchronously)
       const directionalLight = globe.scene().children.find(obj3d => obj3d.type === 'DirectionalLight');
       directionalLight && directionalLight.position.set(1, 1, 1); // change light position to see the specularMap's effect
@@ -75,7 +75,7 @@ my_awesome_script.style.display = "flex";
       
     
       
-    })  
+      
           //.htmlElement( style={flex: 1,
             //position: relative})
     (document.getElementById('globeViz'));
