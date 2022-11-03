@@ -43,7 +43,10 @@ my_awesome_script.style.display = "flex";
     .showAtmosphere(true)
     .htmlElementsData(gData)
     .htmlElement(d => {
-      my_awesome_script
+      const el = document.createElement('div');
+      el.append.my_awesome_script
+
+      return el;
     })
     //.htmlElement(d => {
       //const el = document.createElement('div');
