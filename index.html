@@ -45,17 +45,17 @@
       el.className= "myDIV";
       //el.style.color = d.color;
       el.style.width = `${30}px`;
-
+      el.style.position="relative";
       el.style['pointer-events'] = 'auto';
       el.style.cursor = 'pointer';
       el.onclick = () => console.info(d);
       //return el;
-      const el2 = document.createElement('script');
-      el.className= "hide";
-      el2.setAttribute('src','https://widget.rss.app/v1/wall.js');
-      el2.async = true;
-      el2.size = 25;
-      return [el, el2];
+      //const el2 = document.createElement('script');
+      //el.className= "hide";
+      //el2.setAttribute('src','https://widget.rss.app/v1/wall.js');
+      //el2.async = true;
+      //el2.size = 25;
+      return [el, {/*el2*/}];
 
     });
     //(elem);

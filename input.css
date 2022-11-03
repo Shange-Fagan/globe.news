@@ -8,5 +8,6 @@
 }
 
 .myDIV:hover + .hide {
-    display: block;
+    position: relative;
+    display: inline;
   }
