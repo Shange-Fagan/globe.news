@@ -64,6 +64,39 @@
       globe.controls().autoRotate = true;
       globe.controls().autoRotateSpeed = 0.85;
 
+      // GUI
+      
+      const gui = new GUI();
+      
+      const textureLoader = new THREE.TextureLoader()
+      const myMatCap = [
+      textureLoader.load('//unpkg.com/three-globe/example/img/earth-dark.jpg'),
+      textureLoader.load('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg'),
+      ]
+      
+      const parameters = {
+      color: 0xff0000,
+      matCapTexture: 0
+      }
+
+      const updateAllMaterials = () => {
+      scene.traverse( (child)=>{
+        if(child instanceof THREE.Mesh && child.material instanceof THREE.MeshMatcapMaterial) {
+            child.material.matcap = myMatCap[ parameters.matCapTexture]
+            child.material.needsUpdate = true
+        }
+      })
+      }
+
+      gui.add(parameters, 'matCapTexture', {
+      dark: 0,
+      light: 1,
+      }).onFinishChange(()=>{
+      updateAllMaterials()
+      })
+
+			gui.open();
+
       //const animate = () => {
       //requestAnimationFrame(animate);
       //globe.rotation.y += 0.01;
