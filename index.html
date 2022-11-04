@@ -77,9 +77,7 @@ const gui = new GUI();
         return my_awesome_script;
       }
       )
-      .globeImageUrl = new THREE.MeshPhongMaterial( {
-					map: textureLoader.load(parameters.Theme),
-        } );
+      .globeImageUrl(parameters.Theme)
       (elem);
 
       // custom globe material
