@@ -35,7 +35,7 @@
 
     const elem = document.getElementById('globeViz');
     const globe = Globe()
-      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
+      .globeImageUrl(parameters.matCapTexture)
       .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')   
       .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
       .showGraticules(true)
@@ -75,7 +75,6 @@
       ]
       
       const parameters = {
-      color: 0xff0000,
       matCapTexture: 0
       }
 
