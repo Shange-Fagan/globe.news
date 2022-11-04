@@ -39,25 +39,25 @@
 const gui = new GUI();
       
       const textureLoader = new THREE.TextureLoader()
-      const myMatCap = [
+      const myTexture = [
       textureLoader.load('//unpkg.com/three-globe/example/img/earth-dark.jpg'),
       textureLoader.load('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg'),
       ]
       
       const parameters = {
-      matCapTexture: 0
+      Texture: 0
       }
 
       const updateAllMaterials = () => {
       scene.traverse( (child)=>{
       if(child instanceof THREE.Mesh ) {
-            child.material.matcap = myMatCap[ parameters.matCapTexture]
+            child.material = myTexture[ parameters.Texture]
             child.material.needsUpdate = true
         }
       })
       }
 
-      gui.add(parameters, 'matCapTexture', {
+      gui.add(parameters, 'theme', {
       dark: 0,
       light: 1,
       }).onFinishChange(()=>{
@@ -68,7 +68,7 @@ const gui = new GUI();
 
     const elem = document.getElementById('globeViz');
     const globe = Globe()
-      .globeImageUrl(parameters.matCapTexture)
+      .globeImageUrl(parameters.Texture)
       .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')   
       .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
       .showGraticules(true)
