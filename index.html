@@ -1,43 +1,48 @@
 <head>
   <rssapp-wall id="tszZCksFzEB4w9UN"></rssapp-wall>
 
-  <style> body { margin: 0; } </style>
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
 
   <script src="//unpkg.com/globe.gl"></script>
-<!--  <script src="../../dist/globe.gl.js"></script>-->
+  <!--  <script src="../../dist/globe.gl.js"></script>-->
 </head>
 
 <body>
-<div id="globeViz"></div>
+  <div id="globeViz"></div>
 
 
-<script>
+  <script>
 
-  var my_awesome_script = document.createElement('script');
+    var my_awesome_script = document.createElement('script');
     my_awesome_script.type = 'text/javascript';
     my_awesome_script.async = true;
-    my_awesome_script.setAttribute('src','https://widget.rss.app/v1/wall.js');
-    my_awesome_script.style=({background: 'transparent', width: 24, height: 30,});
-    
-  // Gen random data
-  const N = 30;
-  const gData = [...Array(N).keys()].map(() => ({
-    lat: 54, //latitude and longitude for london
-    lng: -2,
-  }));
-  
-  const elem = document.getElementById('globeViz');
-  Globe()
-    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
-    .htmlElementsData(gData)
-    .htmlElement(d => {my_awesome_script;
-      my_awesome_script.style=({background: 'transparent', position: 'static',});
-    return my_awesome_script;
-  }
-    )
-    
-    (elem);
+    my_awesome_script.setAttribute('src', 'https://widget.rss.app/v1/wall.js');
+    my_awesome_script.style = ({ background: 'transparent', width: 24, height: 30, });
 
-    
-</script>
+    // Gen random data
+    const N = 30;
+    const gData = [...Array(N).keys()].map(() => ({
+      lat: 54, //latitude and longitude for london
+      lng: -2,
+    }));
+
+    const elem = document.getElementById('globeViz');
+    Globe()
+      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
+      .htmlElementsData(gData)
+      .htmlElement(d => {
+        my_awesome_script;
+      my_awesome_script.style = { background: 'transparent', position: 'static', };
+        return my_awesome_script;
+      }
+      )
+
+      (elem);
+
+
+  </script>
 </body>
