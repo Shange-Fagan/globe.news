@@ -50,7 +50,7 @@
 
     const updateAllMaterials = () => {
       scene.traverse((child) => {
-        if (true) {
+        if (child instanceof Globe()) {
           child.material = myTexture[parameters.Theme];
           child.material.needsUpdate = true;
         }
