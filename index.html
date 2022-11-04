@@ -32,6 +32,8 @@
       el.innerHTML = markerSvg;
       el.style.color = d.color;
       el.style.width = `${d.size}px`;
+      el.style.position = 'static';
+
 
       el.style['pointer-events'] = 'auto';
       el.style.cursor = 'pointer';
