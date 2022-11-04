@@ -21,7 +21,6 @@
     my_awesome_script.type = 'text/javascript';
     my_awesome_script.async = true;
     my_awesome_script.setAttribute('src', 'https://widget.rss.app/v1/wall.js');
-    my_awesome_script.style = ({ background: 'transparent', width: 24, height: 30, });
 
     // Gen random data
     const N = 30;
@@ -35,6 +34,7 @@
       .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
       .htmlElementsData(gData)
       .htmlElement(d => {
+        innerHTML = my_awesome_script
       my_awesome_script.style = { background: 'transparent', position: 'static', };
         return my_awesome_script;
       }
