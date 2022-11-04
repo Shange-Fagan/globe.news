@@ -17,7 +17,7 @@
   <div id="globeViz"></div>
 
 
-  <script>
+  <script type="module">
 
     var my_awesome_script = document.createElement('script');
     my_awesome_script.type = 'text/javascript';
@@ -33,7 +33,7 @@
       lng: -2,
     }));
 
-    import GUI from './js/dat.gui.module.js';
+    import { GUI } from './js/dat.gui.module.js';
     // GUI
       
 const gui = new GUI();
