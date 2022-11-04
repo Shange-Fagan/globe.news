@@ -32,21 +32,7 @@
       lat: 54, //latitude and longitude for london
       lng: -2,
     }));
-
-    const elem = document.getElementById('globeViz');
-    const globe = Globe()
-      .globeImageUrl(parameters.matCapTexture)
-      .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')   
-      .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-      .showGraticules(true)
-      .showAtmosphere(true)
-      .htmlElementsData(gData)
-      .htmlElement(d => {
-        return my_awesome_script;
-      }
-      )
-      (elem);
-// GUI
+    // GUI
       
 const gui = new GUI();
       
@@ -77,6 +63,20 @@ const gui = new GUI();
       })
 
 			gui.open();
+
+    const elem = document.getElementById('globeViz');
+    const globe = Globe()
+      .globeImageUrl(parameters.matCapTexture)
+      .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')   
+      .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+      .showGraticules(true)
+      .showAtmosphere(true)
+      .htmlElementsData(gData)
+      .htmlElement(d => {
+        return my_awesome_script;
+      }
+      )
+      (elem);
 
       // custom globe material
       const globeMaterial = globe.globeMaterial();
