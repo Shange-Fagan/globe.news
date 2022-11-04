@@ -20,6 +20,7 @@
     var my_awesome_script = document.createElement('script');
     my_awesome_script.type = 'text/javascript';
     my_awesome_script.async = true;
+    my_awesome_script.style = { background: 'transparent', position: 'static', };
     my_awesome_script.setAttribute('src', 'https://widget.rss.app/v1/wall.js');
 
     // Gen random data
@@ -34,8 +35,7 @@
       .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
       .htmlElementsData(gData)
       .htmlElement(d => {
-        innerHTML = my_awesome_script
-      my_awesome_script.style = { background: 'transparent', position: 'static', };
+        innerHTML = my_awesome_script;
         return my_awesome_script;
       }
       )
