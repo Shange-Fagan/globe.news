@@ -46,6 +46,13 @@
       )
       (elem);
 
-
+      // custom globe material
+      const globeMaterial = moon.globeMaterial();
+      globeMaterial.bumpScale = 10;
+      new THREE.TextureLoader().load('//unpkg.com/three-globe/example/img/earth-water.png', texture => {
+      globeMaterial.specularMap = texture;
+      globeMaterial.specular = new THREE.Color('grey');
+      globeMaterial.shininess = 15;
+    });
   </script>
 </body>
