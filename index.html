@@ -7,7 +7,7 @@
     }
   </style>
 
-    <script src="//unpkg.com/three"></script>
+    
   <script src="//unpkg.com/globe.gl"></script>
   <!--  <script src="../../dist/globe.gl.js"></script>-->
 </head>
@@ -44,19 +44,6 @@
         return my_awesome_script;
       }
       )
-       // custom globe material
-      const globeMaterial = globe.globeMaterial();
-      globeMaterial.bumpScale = 10;
-      new THREE.TextureLoader().load('//unpkg.com/three-globe/example/img/earth-water.png', texture => {
-      globeMaterial.specularMap = texture;
-      globeMaterial.specular = new THREE.Color('grey');
-      globeMaterial.shininess = 15;
-      });
-
-      
-
-      
-
       (elem);
 
 
