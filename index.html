@@ -46,27 +46,9 @@
       }
       )
       (elem);
-
-      // custom globe material
-      const globeMaterial = globe.globeMaterial();
-      globeMaterial.bumpScale = 10;
-      new THREE.TextureLoader().load('//unpkg.com/three-globe/example/img/earth-water.png', texture => {
-      globeMaterial.specularMap = texture;
-      globeMaterial.specular = new THREE.Color('grey');
-      globeMaterial.shininess = 15;
-       });
-
-       setTimeout(() => { // wait for scene to be populated (asynchronously)
-      const directionalLight = globe.scene().children.find(obj3d => obj3d.type === 'DirectionalLight');
-      directionalLight && directionalLight.position.set(1, 1, 1); // change light position to see the specularMap's effect
-      });
+// GUI
       
-      globe.controls().autoRotate = true;
-      globe.controls().autoRotateSpeed = 0.85;
-
-      // GUI
-      
-      const gui = new GUI();
+const gui = new GUI();
       
       const textureLoader = new THREE.TextureLoader()
       const myMatCap = [
@@ -96,6 +78,24 @@
 
 			gui.open();
 
+      // custom globe material
+      const globeMaterial = globe.globeMaterial();
+      globeMaterial.bumpScale = 10;
+      new THREE.TextureLoader().load('//unpkg.com/three-globe/example/img/earth-water.png', texture => {
+      globeMaterial.specularMap = texture;
+      globeMaterial.specular = new THREE.Color('grey');
+      globeMaterial.shininess = 15;
+       });
+
+       setTimeout(() => { // wait for scene to be populated (asynchronously)
+      const directionalLight = globe.scene().children.find(obj3d => obj3d.type === 'DirectionalLight');
+      directionalLight && directionalLight.position.set(1, 1, 1); // change light position to see the specularMap's effect
+      });
+      
+      globe.controls().autoRotate = true;
+      globe.controls().autoRotateSpeed = 0.85;
+
+      
       //const animate = () => {
       //requestAnimationFrame(animate);
       //globe.rotation.y += 0.01;
