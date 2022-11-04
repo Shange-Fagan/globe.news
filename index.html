@@ -68,9 +68,6 @@ const gui = new GUI();
 
     const elem = document.getElementById('globeViz');
     const globe = Globe()
-      .globeImageUrl = new THREE.MeshPhongMaterial( {
-					map: textureLoader.load(parameters.Theme),
-        } )
       .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')   
       .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
       .showGraticules(true)
@@ -80,6 +77,9 @@ const gui = new GUI();
         return my_awesome_script;
       }
       )
+      .globeImageUrl = new THREE.MeshPhongMaterial( {
+					map: textureLoader.load(parameters.Theme),
+        } );
       (elem);
 
       // custom globe material
