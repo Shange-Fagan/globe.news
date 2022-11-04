@@ -37,8 +37,9 @@
       el.style.cursor = 'pointer';
       el.onclick = () => console.info(d);
       const el2 = document.createElement('script');
-        el.className= "hide2";
+        el2.className= "hide2";
         el2.setAttribute('src','https://widget.rss.app/v1/wall.js');
+        el2.style.position = 'absolute';
         el2.async = true;
         el2.size = 25;
         return [el, {/*el2*/}];
