@@ -17,15 +17,13 @@
     my_awesome_script.type = 'text/javascript';
     my_awesome_script.async = true;
     my_awesome_script.setAttribute('src','https://widget.rss.app/v1/wall.js');
-    my_awesome_script.style=({background: 'transparent'});
+    my_awesome_script.style=({background: 'transparent', width: 24, height: 30,});
     
   // Gen random data
   const N = 30;
   const gData = [...Array(N).keys()].map(() => ({
     lat: 54, //latitude and longitude for london
     lng: -2,
-    width: (24),
-    height: (30),
   }));
   
   const elem = document.getElementById('globeViz');
