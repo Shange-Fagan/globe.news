@@ -22,6 +22,8 @@
   const gData = [...Array(N).keys()].map(() => ({
     lat: (Math.random() - 0.5) * 180,
     lng: (Math.random() - 0.5) * 360,
+    width: (24),
+    height: (24),
   }));
   
   const elem = document.getElementById('globeViz');
