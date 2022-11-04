@@ -7,7 +7,7 @@
     }
   </style>
 
-<script src="//unpkg.com/three"></script>
+  <script src="//unpkg.com/three"></script>
 
   <script src="//unpkg.com/globe.gl"></script>
   <!--  <script src="../../dist/globe.gl.js"></script>-->
@@ -16,16 +16,14 @@
 <body>
   <div id="globeViz"></div>
 
-
   <script type="module">
-
-    var my_awesome_script = document.createElement('script');
-    my_awesome_script.type = 'text/javascript';
+    var my_awesome_script = document.createElement("script");
+    my_awesome_script.type = "text/javascript";
     my_awesome_script.async = true;
-    my_awesome_script.setAttribute('src', 'https://widget.rss.app/v1/wall.js');
-    my_awesome_script.style.background = 'transparent';
-    my_awesome_script.style.objectFit= 'contain';
-    my_awesome_script.style.position = 'static';
+    my_awesome_script.setAttribute("src", "https://widget.rss.app/v1/wall.js");
+    my_awesome_script.style.background = "transparent";
+    my_awesome_script.style.objectFit = "contain";
+    my_awesome_script.style.position = "static";
     // Gen random data
     const N = 30;
     const gData = [...Array(N).keys()].map(() => ({
@@ -33,76 +31,87 @@
       lng: -2,
     }));
 
-    import { GUI } from './js/dat.gui.module.js';
+    import { GUI } from "./js/dat.gui.module.js";
     // GUI
-      
-const gui = new GUI();
-      
-      const textureLoader = new THREE.TextureLoader()
-      const myTexture = [
-      textureLoader.load('//unpkg.com/three-globe/example/img/earth-dark.jpg'),
-      textureLoader.load('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg'),
-      ]
-      
-      const parameters = {
-      Theme: 0
-      }
 
-      const updateAllMaterials = () => {
-      scene.traverse( (child)=>{
-      if(child instanceof THREE.Mesh && child.material instanceof THREE.MeshPhongMaterial) {
-            child.material = myTexture[ parameters.Theme]
-            child.material.needsUpdate = true
+    const gui = new GUI();
+
+    const textureLoader = new THREE.TextureLoader();
+    const myTexture = [
+      textureLoader.load("//unpkg.com/three-globe/example/img/earth-dark.jpg"),
+      textureLoader.load(
+        "//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+      ),
+    ];
+
+    const parameters = {
+      Theme: 0,
+    };
+
+    const updateAllMaterials = () => {
+      scene.traverse((child) => {
+        if (
+          child instanceof THREE.Mesh &&
+          child.material instanceof THREE.MeshPhongMaterial
+        ) {
+          child.material = myTexture[parameters.Theme];
+          child.material.needsUpdate = true;
         }
+      });
+    };
+
+    gui
+      .add(parameters, "Theme", {
+        night: 0,
+        day: 1,
       })
-      }
+      .onFinishChange(() => {
+        updateAllMaterials();
+      });
 
-      gui.add(parameters, 'Theme', {
-      dark: 0,
-      light: 1,
-      }).onFinishChange(()=>{
-      updateAllMaterials()
-      })
+    gui.open();
 
-			gui.open();
-
-    const elem = document.getElementById('globeViz');
+    const elem = document.getElementById("globeViz");
     const globe = Globe()
-      .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')   
-      .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+      .bumpImageUrl("//unpkg.com/three-globe/example/img/earth-topology.png")
+      .backgroundImageUrl("//unpkg.com/three-globe/example/img/night-sky.png")
       .showGraticules(true)
       .showAtmosphere(true)
       .htmlElementsData(gData)
-      .htmlElement(d => {
+      .htmlElement((d) => {
         return my_awesome_script;
+      })
+      .globeImageUrl(parameters.Theme)(elem);
+    globeMaterial([MeshPhongMaterial]);
+
+    // custom globe material
+    const globeMaterial = globe.globeMaterial();
+    globeMaterial.bumpScale = 10;
+    new THREE.TextureLoader().load(
+      "//unpkg.com/three-globe/example/img/earth-water.png",
+      (texture) => {
+        globeMaterial.specularMap = texture;
+        globeMaterial.specular = new THREE.Color("grey");
+        globeMaterial.shininess = 15;
       }
-      )
-      .globeImageUrl(parameters.Theme)
-      (elem);
+    );
 
-      // custom globe material
-      const globeMaterial = globe.globeMaterial();
-      globeMaterial.bumpScale = 10;
-      new THREE.TextureLoader().load('//unpkg.com/three-globe/example/img/earth-water.png', texture => {
-      globeMaterial.specularMap = texture;
-      globeMaterial.specular = new THREE.Color('grey');
-      globeMaterial.shininess = 15;
-       });
-
-       setTimeout(() => { // wait for scene to be populated (asynchronously)
-      const directionalLight = globe.scene().children.find(obj3d => obj3d.type === 'DirectionalLight');
+    setTimeout(() => {
+      // wait for scene to be populated (asynchronously)
+      const directionalLight = globe
+        .scene()
+        .children.find((obj3d) => obj3d.type === "DirectionalLight");
       directionalLight && directionalLight.position.set(1, 1, 1); // change light position to see the specularMap's effect
-      });
-      
-      globe.controls().autoRotate = true;
-      globe.controls().autoRotateSpeed = 0.85;
+    });
 
-      
-      //const animate = () => {
-      //requestAnimationFrame(animate);
-      //globe.rotation.y += 0.01;
-     //}
+    globe.controls().autoRotate = true;
+    globe.controls().autoRotateSpeed = 0.85;
 
-      //animate();  
+    //const animate = () => {
+    //requestAnimationFrame(animate);
+    //globe.rotation.y += 0.01;
+    //}
+
+    //animate();
   </script>
 </body>
