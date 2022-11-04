@@ -50,7 +50,7 @@ const gui = new GUI();
 
       const updateAllMaterials = () => {
       scene.traverse( (child)=>{
-        if(child instanceof THREE.Mesh && child.material instanceof THREE.MeshMatcapMaterial) {
+      if(child instanceof THREE.Mesh ) {
             child.material.matcap = myMatCap[ parameters.matCapTexture]
             child.material.needsUpdate = true
         }
@@ -103,6 +103,6 @@ const gui = new GUI();
       //globe.rotation.y += 0.01;
      //}
 
-      animate();  
+      //animate();  
   </script>
 </body>
