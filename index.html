@@ -28,24 +28,14 @@
     .htmlElementsData(gData)
     .htmlElement(d => {
       const el = document.createElement('div');
-      el.setAttribute('class', 'myDIV2');
       el.innerHTML = markerSvg;
       el.style.color = d.color;
       el.style.width = `${d.size}px`;
-      el.style.position = 'static';
-
 
       el.style['pointer-events'] = 'auto';
       el.style.cursor = 'pointer';
       el.onclick = () => console.info(d);
-      const el2 = document.createElement('content');
-        el2.className= "hide2";
-        el2.setAttribute('src','https://widget.rss.app/v1/wall.js');
-        el2.style.position = 'static';
-        el2.async = true;
-        el2.size = 25;
-        return [el, {/*el2*/}];
-      //return el;
+      return el;
     })
     (document.getElementById('globeViz'));
 </script>
