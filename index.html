@@ -50,7 +50,10 @@
 
     const updateAllMaterials = () => {
       scene.traverse((child) => {
-        if (child instanceof Globe()) {
+        if (
+          child instanceof Globe() &&
+          child.material instanceof THREE.MeshPhongMaterial
+        ) {
           child.material = myTexture[parameters.Theme];
           child.material.needsUpdate = true;
         }
