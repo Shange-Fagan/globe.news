@@ -8,16 +8,16 @@
 }
 
 .myDIV:hover + .hide {
-    position: relative;
+    position: static;
     
   }
 
   .hide2 {
-    position: static;
+    
     display: none;
   }
 
   .myDIV2:hover + .hide2 {
-    position: static;
+    
     display: inside;
   }
