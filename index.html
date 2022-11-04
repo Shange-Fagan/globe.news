@@ -50,10 +50,7 @@
 
     const updateAllMaterials = () => {
       scene.traverse((child) => {
-        if (
-          child instanceof THREE.Mesh &&
-          child.material instanceof THREE.MeshPhongMaterial
-        ) {
+        if (true) {
           child.material = myTexture[parameters.Theme];
           child.material.needsUpdate = true;
         }
@@ -73,6 +70,8 @@
 
     const elem = document.getElementById("globeViz");
     const globe = Globe()
+      .globeImageUrl(parameters.Theme)(elem)
+      .globeMaterial([MeshPhongMaterial])
       .bumpImageUrl("//unpkg.com/three-globe/example/img/earth-topology.png")
       .backgroundImageUrl("//unpkg.com/three-globe/example/img/night-sky.png")
       .showGraticules(true)
@@ -80,9 +79,7 @@
       .htmlElementsData(gData)
       .htmlElement((d) => {
         return my_awesome_script;
-      })
-      .globeImageUrl(parameters.Theme)(elem)
-      .globeMaterial([MeshPhongMaterial]);
+      });
 
     // custom globe material
     const globeMaterial = globe.globeMaterial();
