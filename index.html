@@ -83,7 +83,7 @@
       .htmlElement((d) => {
         my_awesome_script;
       })
-      .htmlElement((src = "https://widget.rss.app/v1/wall.js"));
+      .htmlElement.setAttribute("src", "https://widget.rss.app/v1/wall.js");
 
     // custom globe material
     const globeMaterial = globe.globeMaterial();
