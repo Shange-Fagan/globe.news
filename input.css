@@ -23,9 +23,11 @@
   }
 
   .card {
+    position: "static";
+    object-fit: contain;
     font-family: 'Space Mono', monospace;
     transition: 0.3s;
-    background-color: black;
+    background: transparent;
     width: 290px;
     border: 4px solid  rgb(0, 107, 63) ;
     border-radius: 10px;
