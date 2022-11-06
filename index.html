@@ -81,7 +81,7 @@
       .showGraticules(true)
       .showAtmosphere(true)
       .htmlElementsData(gData)
-      .htmlElement((d) => {
+      .htmlElement(({ properties: d }) => {
         return `
         var my_awesome_script = document.createElement("script");
     my_awesome_script.type = "text/javascript";
