@@ -23,11 +23,18 @@
   <div id="globeViz"></div>
 
   <script type="module">
+    var my_awesome_script = document.createElement("script");
+    my_awesome_script.type = "text/javascript";
+    my_awesome_script.async = true;
+    my_awesome_script.setAttribute("src", "https://widget.rss.app/v1/wall.js");
+    my_awesome_script.style.background = "transparent";
+    my_awesome_script.style.objectFit = "contain";
+    my_awesome_script.style.position = "static";
     // Gen random data
     const N = 30;
     const gData = [...Array(N).keys()].map(() => ({
-      lat: 54, //latitude and longitude for london
-      lng: -2,
+      lat: (Math.random() - 0.5) * 180,
+      lng: (Math.random() - 0.5) * 360,
     }));
 
     import { GUI } from "./js/dat.gui.module.js";
@@ -83,17 +90,10 @@
       .htmlElementsData(gData)
       .htmlElement(({ properties: d }) => {
         return `
-        var my_awesome_script = document.createElement("script");
-    my_awesome_script.type = "text/javascript";
-    my_awesome_script.async = true;
-    my_awesome_script.setAttribute("src", "https://widget.rss.app/v1/wall.js");
-    my_awesome_script.style.background = "transparent";
-    my_awesome_script.style.objectFit = "contain";
-    my_awesome_script.style.position = "static";
-    my_awesome_script;
+
+    <div>${d.my_awesome_script}</div>
         `;
-      })
-      .htmlElement.setAttribute("src", "https://widget.rss.app/v1/wall.js");
+      });
 
     // custom globe material
     const globeMaterial = globe.globeMaterial();
