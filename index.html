@@ -24,13 +24,7 @@
 
   <script type="module">
     var my_awesome_script;
-    var my_awesome_script = document.createElement("div");
-    // my_awesome_script.type = "text/javascript";
-    my_awesome_script.async = true;
-    my_awesome_script.setAttribute("src", "https://widget.rss.app/v1/wall.js");
-    my_awesome_script.style.background = "transparent";
-    my_awesome_script.style.objectFit = "contain";
-    my_awesome_script.style.position = "static";
+
     // Gen random data
     const N = 30;
     const gData = [...Array(N).keys()].map(() => ({
@@ -89,10 +83,20 @@
       .showGraticules(true)
       .showAtmosphere(true)
       .htmlElementsData(gData)
-      .htmlElement(({ properties: d }) => {
+      .htmlElement(({}) => {
+        var my_awesome_script = document.createElement("div");
+        // my_awesome_script.type = "text/javascript";
+        my_awesome_script.async = true;
+        my_awesome_script.setAttribute(
+          "src",
+          "https://widget.rss.app/v1/wall.js"
+        );
+        my_awesome_script.style.background = "transparent";
+        my_awesome_script.style.objectFit = "contain";
+        my_awesome_script.style.position = "static";
         return `
 
-    <div>${d.my_awesome_script}</div>
+    <div>${my_awesome_script}</div>
         `;
       });
 
