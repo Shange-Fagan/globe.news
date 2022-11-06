@@ -23,13 +23,6 @@
   <div id="globeViz"></div>
 
   <script type="module">
-    var my_awesome_script = document.createElement("script");
-    my_awesome_script.type = "text/javascript";
-    my_awesome_script.async = true;
-    my_awesome_script.setAttribute("src", "https://widget.rss.app/v1/wall.js");
-    my_awesome_script.style.background = "transparent";
-    my_awesome_script.style.objectFit = "contain";
-    my_awesome_script.style.position = "static";
     // Gen random data
     const N = 30;
     const gData = [...Array(N).keys()].map(() => ({
@@ -89,7 +82,16 @@
       .showAtmosphere(true)
       .htmlElementsData(gData)
       .htmlElement((d) => {
-        my_awesome_script;
+        return `
+        var my_awesome_script = document.createElement("script");
+    my_awesome_script.type = "text/javascript";
+    my_awesome_script.async = true;
+    my_awesome_script.setAttribute("src", "https://widget.rss.app/v1/wall.js");
+    my_awesome_script.style.background = "transparent";
+    my_awesome_script.style.objectFit = "contain";
+    my_awesome_script.style.position = "static";
+    my_awesome_script;
+        `;
       })
       .htmlElement.setAttribute("src", "https://widget.rss.app/v1/wall.js");
 
