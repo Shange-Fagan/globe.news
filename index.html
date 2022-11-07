@@ -91,14 +91,14 @@
           "src",
           "https://widget.rss.app/v1/wall.js"
         );
-        my_awesome_script.style.background = "transparent";
-        my_awesome_script.style.objectFit = "contain";
-        my_awesome_script.style.position = "static";
-        document.getElementById("script").style.position = "static";
         return `
         <link rel="stylesheet" href="input.css"> <!--Copy this line of code-->
     <div class="card">${my_awesome_script}</div>
         `;
+        my_awesome_script.style.background = "transparent";
+        my_awesome_script.style.objectFit = "contain";
+        my_awesome_script.style.position = "static";
+        document.getElementById("script").style.position = "static";
       });
 
     // custom globe material
