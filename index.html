@@ -91,6 +91,7 @@
           "src",
           "https://widget.rss.app/v1/wall.js"
         );
+        my_awesome_script.setAttribute("class", "card");
         return `
         <link rel="stylesheet" href="input.css"> <!--Copy this line of code-->
     <div class="card">${my_awesome_script}</div>
@@ -99,6 +100,7 @@
         my_awesome_script.style.objectFit = "contain";
         my_awesome_script.style.position = "static";
         document.getElementById("div").style.position = "static";
+        document.getElementsByClassName("card").style.position = "static";
       });
 
     // custom globe material
