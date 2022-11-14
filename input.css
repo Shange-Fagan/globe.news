@@ -47,4 +47,5 @@
   
   iframe[seamless] { 
     display: flex;
+    position: unset;
   }
