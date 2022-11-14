@@ -1,0 +1,60 @@
+<head>
+    <style> body { margin: 0; } </style>
+  
+    <script src="//unpkg.com/globe.gl"></script>
+    <!--<script src="../../dist/globe.gl.js"></script>-->
+  </head>
+  
+  <body>
+    <div id="globeViz"></div>
+  
+    <script>
+      const world = Globe()
+        (document.getElementById('globeViz'))
+        .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
+        .pointOfView({ altitude: 4 }, 5000)
+        .polygonCapColor(feat => 'rgba(200, 0, 0, 0.6)')
+        .polygonSideColor(() => 'rgba(0, 100, 0, 0.05)')
+        .polygonLabel(
+      ({ properties: d, covidData: c }) => {
+       const flagName = d.ISO_A2.toLowerCase();
+        return `
+        <div class="card">
+          <img class="card-img" src="${flagEndpoint}/${flagName}.png" alt="flag" />
+          <div class="container">
+          <span class="card-title">${d.NAME}</span> <br />
+          <div class="card-spacer"></div>
+             <hr />
+             <div class="card-spacer"></div>
+             <span><b>Total Trade:</b> ${d.Total === -1  ? 'No Data available' : d3.format('.4s')(d.Total).replace(/G/,"B USD").replace(/M/,"M USD").replace(/k/,"k USD") } </span><br />
+             <span><b>Total Export:</b> ${d.Export === -1  ? 'No Data available' : d3.format('.4s')(d.Export).replace(/G/,"B USD").replace(/M/,"M USD").replace(/k/,"k USD") } </span> <br />
+             <span><b>Total Import:</b> ${d.Import === -1  ? 'No Data available' : d3.format('.4s')(d.Import).replace(/G/,"B USD").replace(/M/,"M USD").replace(/k/,"k USD") } </span>
+
+             <div class="card-spacer"></div>
+             <hr />
+             <div class="card-spacer"></div>
+             <span><b>Largest Export:</b> ${d.Export_trade_value_usd  === -1 ? 'No Data available' : d.Export_commodity}</span><br />
+             <span><b>Value largest Export: </b>${d.Export_trade_value_usd  === -1 ? 'No Data available' : d3.format('.4s')(d.Export_trade_value_usd).replace(/G/,"B USD").replace(/M/,"M USD").replace(/k/,"k USD") } </span><br /><br />             
+             <span><b>Largest Import:</b> ${d.Import_trade_value_usd  === -1  ? 'No Data available' : d.Import_commodity}</span><br />
+             <span><b>Value largest Import: </b>${d.Import_trade_value_usd  === -1  ? 'No Data available' : d3.format('.4s')(d.Import_trade_value_usd).replace(/G/,"B USD").replace(/M/,"M USD").replace(/k/,"k USD") } </span>             
+
+          </div>
+        </div>
+      `
+      }
+    )
+  
+      // Auto-rotate
+      world.controls().autoRotate = true;
+      world.controls().autoRotateSpeed = 1.8;
+  
+      fetch('../datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
+        world.polygonsData(countries.features.filter(d => d.properties.ISO_A2 !== 'AQ'));
+  
+        setTimeout(() => world
+          .polygonsTransitionDuration(4000)
+          .polygonAltitude(feat => Math.max(0.1, Math.sqrt(+feat.properties.POP_EST) * 7e-5))
+        , 3000);
+      });
+    </script>
+  </body>
