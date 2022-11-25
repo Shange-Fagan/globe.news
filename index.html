@@ -12,12 +12,6 @@
       margin: 0;
     }
   </style>
-  <script>
-    import atmosphereVertexShader from "./atmosphereVertex.glsl";
-    import atmosphereFragmentShader from "./atmosphereFragment.glsl";
-    import vertexShader from "./vertex.glsl";
-    import fragmentShader from "./fragment.glsl";
-  </script>
   <script src="//unpkg.com/three"></script>
 
   <script src="//unpkg.com/globe.gl"></script>
@@ -28,6 +22,10 @@
   <div id="globeViz"></div>
 
   <script type="module">
+    import atmosphereVertexShader from "./atmosphereVertex.glsl";
+    import atmosphereFragmentShader from "./atmosphereFragment.glsl";
+    import vertexShader from "./vertex.glsl";
+    import fragmentShader from "./fragment.glsl";
     var my_awesome_script;
 
     // Gen random data
