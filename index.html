@@ -12,7 +12,12 @@
       margin: 0;
     }
   </style>
-
+  <script>
+    import atmosphereVertexShader from "./atmosphereVertex.glsl";
+    import atmosphereFragmentShader from "./atmosphereFragment.glsl";
+    import vertexShader from "./vertex.glsl";
+    import fragmentShader from "./fragment.glsl";
+  </script>
   <script src="//unpkg.com/three"></script>
 
   <script src="//unpkg.com/globe.gl"></script>
@@ -73,6 +78,18 @@
     gui.open();
 
     const elem = document.getElementById("globeViz");
+
+    const atmosphere = new THREE.Mesh(
+      new THREE.SphereGeometry(5, 50, 50),
+      new THREE.ShaderMaterial({
+        vertexShader: atmosphereVertexShader,
+        fragmentShader: atmosphereFragmentShader,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide,
+      })
+    );
+
+    atmosphere.scale.set(1.1, 1.1, 1.1);
     const globe = Globe()
       .globeImageUrl(
         "//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
