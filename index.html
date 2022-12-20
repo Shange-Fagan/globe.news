@@ -628,7 +628,7 @@ let m = new THREE.PointsMaterial({
     //scene.add(dl); // change light position to see the specularMap's effect
   });
   // White directional light at half intensity shining from the top.
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  const directionalLight = new THREE.DirectionalLight(0x909090, 1);
   directionalLight.position.set(-1, -1, -1);
   scene.add(directionalLight);
   var dl2 = new THREE.DirectionalLight(0xffffff, 1);
@@ -637,10 +637,10 @@ let m = new THREE.PointsMaterial({
   var dl3 = new THREE.DirectionalLight(0xffffff, 1);
   dl3.position.set(3, 2, 1);
   //scene.add(dl3);
-  const light2 = new THREE.AmbientLight(0x4f4f4f); // soft white light
+  const light2 = new THREE.AmbientLight(0x808080); // soft white light
   scene.add(light2);
 
-  var light = new THREE.DirectionalLight(0xffffff, 1);
+  var light = new THREE.DirectionalLight(0xf0f0f0, 1);
   light.position.set(5, 3, 5);
   scene.add(light);
   // custom globe material
