@@ -4,8 +4,38 @@
      body {
       overflow: hidden;
       margin: 0;
+    }a, button, input, select {
+        pointer-events: auto;
     }
-
+      div {
+        display: block;
+    }
+      #info4 {
+        	position: absolute;
+        	width: 100%;
+        	bottom: 1vh;
+      color: teal;
+      width: 100%;
+      font-family: Monospace;
+      text-align: center;
+        	box-sizing: border-box;
+        	text-align: center;
+        	-moz-user-select: none;
+        	-webkit-user-select: none;
+        	-ms-user-select: none;
+        	user-select: none;
+        	pointer-events: none;
+        	z-index: 1; /* TODO Solve this in HTML */
+        }
+    #info3{
+       pointer-events: auto;
+      position: fixed;
+      top: 0vh;
+      color: teal;
+      width: 100%;
+      font-family: Monospace;
+      text-align: center;
+    }
     #info2{
       position: absolute;
       bottom: 1vh;
@@ -35,6 +65,7 @@
         display: block;
         position: absolute;
         border: none;
+        object-fit: contain;
 
       }
 
@@ -104,6 +135,7 @@
       width:142px;
       height:186px;
       display: block;
+        object-fit:contain;
       }
       #idNum5 {
       width:142px;
@@ -237,7 +269,12 @@
 </head>
 
 <div id="info">Click the markers to show the label</div>
-<div id="info2">Made by Shange Fagan</div>
+<div id="info4">
+  Made by
+  <a href="https://shange-fagan.neocities.org/" target="_blank" rel="noopener"
+    >Shange Fagan</a
+  >
+</div>
 <div id="markerLabel7" class="hidden">
   <button id="closeButton7">X</button>
 
@@ -268,16 +305,21 @@
 
   <div class="text" id="idNum2"></div>
 </div>
-
 <div id="markerLabel" class="hidden">
   <button id="closeButton">X</button>
-
   <div class="text" id="idNum"></div>
 </div>
-
 <script src="//unpkg.com/three"></script>
-
 <script src="//unpkg.com/globe.gl"></script>
+<iframe
+  id="info3"
+  width="1200"
+  height="60"
+  style="display: flex, bottom: 0px, object-fit: contain, margin: 0, padding: 0, border:none, background:none, position:absolute;"
+  sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox"
+  src="https://rss.app/embed/v1/ticker/tRj0yIAl7HEk9RzX"
+  frameborder="0"
+></iframe>
 <script type="module">
   import * as THREE from "https://cdn.skypack.dev/three@0.136.0";
   import { OrbitControls } from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/controls/OrbitControls";
@@ -286,15 +328,27 @@
     CSS2DObject,
   } from "https://cdn.skypack.dev/three@0.136.0/examples/jsm/renderers/CSS2DRenderer.js";
 
-  //var my_awesome_script = document.createElement("script");
-  /*my_awesome_script.type = "text/javascript";
-        my_awesome_script.async = true;
-        my_awesome_script.setAttribute(
-          "src",
-          "https://widget.rss.app/v1/ticker.js"
-        );
-        
-       my_awesome_script */
+  function myFunction() {
+    var my_awesome_script2 = document.createElement("iframe");
+    my_awesome_script2.type = "iframe";
+    my_awesome_script2.async = true;
+    my_awesome_script2.setAttribute(
+      "src",
+      "https://rss.app/embed/v1/ticker/tRj0yIAl7HEk9RzX"
+    );
+    //return `<iframe width="1200" height="60" style="display: flex, bottom: 0px, object-fit: contain, margin: 0, padding: 0, border:none, background:none, position:absolute;" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" src="https://rss.app/embed/v1/ticker/tRj0yIAl7HEk9RzX" frameborder="0"></iframe>
+    //<link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+    //`;
+  }
+
+  //document.getElementById("demo").innerHTML = `<div>${myFunction()}</div>`;
+  var my_awesome_script = document.createElement("script");
+  my_awesome_script.type = "text/javascript";
+  my_awesome_script.async = true;
+  my_awesome_script.setAttribute(
+    "src",
+    "https://rss.app/embed/v1/ticker/tRj0yIAl7HEk9RzX"
+  );
 
   let scene = new THREE.Scene();
   let camera = new THREE.PerspectiveCamera(
@@ -1526,7 +1580,7 @@ let m = new THREE.PointsMaterial({
     if (intersections2.length > 0) {
       let iid2 = intersections2[0].instanceId;
       let mi2 = markerInfo2[iid2];
-      divID2.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/t7I9vbyU1csBMHMb"></iframe>
+      divID2.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/VnVI8fK1fBjg7BFU"></iframe>
           <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
          `;
       /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
@@ -1610,7 +1664,7 @@ let m = new THREE.PointsMaterial({
     if (intersections4.length > 0) {
       let iid4 = intersections4[0].instanceId;
       let mi4 = markerInfo4[iid4];
-      divID4.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/tYbRfTQh9sI2Q6Y1"></iframe>
+      divID4.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/AoeATofh1LF3KYxM"></iframe>
           <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
          `;
       /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
