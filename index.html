@@ -1257,6 +1257,86 @@ let m = new THREE.PointsMaterial({
 
   scene.add(markers7);
   // </Markers>
+
+  // <Markers>
+  const markerCount8 = 1;
+  let markerInfo8 = []; // information on markers
+  let gMarker8 = new THREE.PlaneGeometry();
+  let mMarker8 = new THREE.MeshBasicMaterial({
+    color: 0xff3232,
+    onBeforeCompile: (shader) => {
+      shader.uniforms.time = globalUniforms.time;
+      shader.vertexShader = `
+    	attribute float phase;
+      varying float vPhase;
+      ${shader.vertexShader}
+    `.replace(
+        `#include <begin_vertex>`,
+        `#include <begin_vertex>
+      	vPhase = phase; // de-synch of ripples
+      `
+      );
+      //console.log(shader.vertexShader);
+      shader.fragmentShader = `
+    	uniform float time;
+      varying float vPhase;
+    	${shader.fragmentShader}
+    `.replace(
+        `vec4 diffuseColor = vec4( diffuse, opacity );`,
+        `
+      vec2 lUv = (vUv - 0.5) * 2.;
+      float val = 0.;
+      float lenUv = length(lUv);
+      val = max(val, 1. - step(0.25, lenUv)); // central circle
+      val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
+      
+      float tShift = fract(time * 0.5 + vPhase);
+      val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
+      
+      if (val < 0.5) discard;
+      
+      vec4 diffuseColor = vec4( diffuse, opacity );`
+      );
+      //console.log(shader.fragmentShader)
+    },
+  });
+  mMarker8.defines = { USE_UV: " " }; // needed to be set to be able to work with UVs
+  let markers8 = new THREE.InstancedMesh(gMarker8, mMarker8, markerCount8);
+
+  let dummy8 = new THREE.Object3D();
+  let phase8 = [];
+
+  for (let i8 = 0; i8 < markerCount8; i8++) {
+    dummy8.position.setFromSphericalCoords(5.1, 1.2, 0.2);
+    //dummy.position.randomDirection().setLength(rad + 0.1);
+    dummy8.lookAt(dummy8.position.clone().setLength(5.1 + 1));
+    dummy8.updateMatrix();
+    markers8.setMatrixAt(i8, dummy8.matrix);
+    phase8.push(Math.random());
+
+    markerInfo.push({
+      id8: i8 + 1,
+      mag8: THREE.MathUtils.randInt(1, 10),
+      crd8: dummy8.position.clone(),
+    });
+  }
+  /*function placeObjectOnPlanet(dummy, 41, -20, 5) {
+    var latRad = 41 * (Math.PI / 180);
+    var lonRad = -20 * (Math.PI / 180);
+    dummy.position.set(
+        Math.cos(latRad) * Math.cos(lonRad) * radius,
+        Math.sin(latRad) * radius,
+        Math.cos(latRad) * Math.sin(lonRad) * radius
+    );
+    object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+}*/
+  gMarker8.setAttribute(
+    "phase8",
+    new THREE.InstancedBufferAttribute(new Float32Array(phase8), 1)
+  );
+
+  scene.add(markers8);
+  // </Markers>
   // <Label>
   let labelDiv = document.getElementById("markerLabel");
   let closeBtn = document.getElementById("closeButton");
@@ -1515,6 +1595,42 @@ let m = new THREE.PointsMaterial({
     },
   };
   scene.add(label7);
+  // </Label>
+  // <Label>
+  let labelDiv8 = document.getElementById("markerLabel8");
+  let closeBtn8 = document.getElementById("closeButton8");
+  closeBtn8.addEventListener("pointerdown", (event) => {
+    labelDiv8.classList.add("hidden");
+  });
+  let label8 = new CSS2DObject(labelDiv8);
+  label8.userData = {
+    cNormal: new THREE.Vector3(),
+    cPosition: new THREE.Vector3(),
+    mat4: new THREE.Matrix4(),
+    trackVisibility: () => {
+      // the closer to the edge, the less opacity
+      let ud = label8.userData;
+      ud.cNormal
+        .copy(label8.position)
+        .normalize()
+        .applyMatrix3(globe.normalMatrix);
+      ud.cPosition
+        .copy(label8.position)
+        .applyMatrix4(
+          ud.mat4.multiplyMatrices(camera.matrixWorldInverse, globe.matrixWorld)
+        );
+      let d = ud.cPosition.negate().normalize().dot(ud.cNormal);
+      d = smoothstep(0.2, 0.7, d);
+      label.element.style.opacity = d;
+
+      // https://github.com/gre/smoothstep/blob/master/index.js
+      function smoothstep(min, max, value) {
+        var x = Math.max(0, Math.min(1, (value - min) / (max - min)));
+        return x * x * (3 - 2 * x);
+      }
+    },
+  };
+  scene.add(label8);
   // </Label>
   // <Interaction>
   let pointer = new THREE.Vector2();
@@ -1809,6 +1925,48 @@ let m = new THREE.PointsMaterial({
         }
       );
       label7.element.classList.remove("hidden");
+    }
+  });
+  // <Interaction>
+  let pointer8 = new THREE.Vector2();
+  let raycaster8 = new THREE.Raycaster();
+  let intersections8;
+  let divID8 = document.getElementById("idNum8");
+  let divMag8 = document.getElementById("magnitude8");
+  let divCrd8 = document.getElementById("coordinates8");
+  window.addEventListener("pointerdown", (event) => {
+    pointer8.x = (event.clientX / window.innerWidth) * 2 - 1;
+    pointer8.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    raycaster8.setFromCamera(pointer8, camera);
+    intersections8 = raycaster8.intersectObject(markers8).filter((m) => {
+      return m.uv.subScalar(0.5).length() * 2 < 0.25; // check, if we're in the central circle only
+    });
+    //console.log(intersections);
+    if (intersections8.length > 0) {
+      let iid8 = intersections8[0].instanceId;
+      let mi8 = markerInfo8[iid8];
+      divID8.innerHTML = `<iframe frameborder="0" scrolling="yes' fullscreen="false" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/fR2Gs0573wtnCqJI"></iframe>
+          <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+         `;
+      /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
+    divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
+      label8.position.copy(mi8.crd8);
+      label8.element.animate(
+        [
+          {
+            width: "0px",
+            height: "0px" /*marginTop: "0px", marginLeft: "0px"*/,
+          },
+          {
+            width: "142px",
+            height: "186px" /*marginTop: "-25px", marginLeft: "120px*/,
+          },
+        ],
+        {
+          duration: 250,
+        }
+      );
+      label8.element.classList.remove("hidden");
     }
   });
 
