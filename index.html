@@ -631,7 +631,7 @@ let m = new THREE.PointsMaterial({
   );
   {
     const loader = new THREE.TextureLoader();
-    const texture = loader.load("../img/hdr3.png", () => {
+    const texture = loader.load("../hdr3.png", () => {
       const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
       rt.fromEquirectangularTexture(renderer, texture);
       scene.background = rt.texture;
