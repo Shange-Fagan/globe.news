@@ -631,11 +631,14 @@ let m = new THREE.PointsMaterial({
   );
   {
     const loader = new THREE.TextureLoader();
-    const texture = loader.load("../hdr3.png", () => {
-      const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
-      rt.fromEquirectangularTexture(renderer, texture);
-      scene.background = rt.texture;
-    });
+    const texture = loader.load(
+      "https://cdn.glitch.global/d5234716-b75d-48ae-9270-1e9e8af1ab7d/hdr3.png?v=1672145453743",
+      () => {
+        const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
+        rt.fromEquirectangularTexture(renderer, texture);
+        scene.background = rt.texture;
+      }
+    );
   }
   atmosphere.scale.set(1.1, 1.1, 1.1);
 
