@@ -664,8 +664,9 @@
   const material2 = new THREE.MeshPhongMaterial({
     specular: 0x111111,
     shininess: 5,
-    map: myTexture[parameters.GlobeTheme],
-
+    map: textureLoader.load(
+      "//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+    ),
     specularMap: textureLoader.load(
       "//unpkg.com/three-globe/example/img/earth-water.png"
     ),
