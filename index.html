@@ -428,52 +428,52 @@
   }
 
   /*let g = new THREE.BufferGeometry().setFromPoints(pts);
-g.setAttribute("color", new THREE.Float32BufferAttribute(clr, 3));
-g.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
-let m = new THREE.PointsMaterial({
-  size: 0.1,
-  vertexColors: true,
-  onBeforeCompile: (shader) => {
-    shader.uniforms.globeTexture = {
-      value: new THREE.TextureLoader().load(imgData)
-    };
-    shader.vertexShader = `
-    	uniform sampler2D globeTexture;
-      varying float vVisibility;
-      varying vec3 vNormal;
-      varying vec3 vMvPosition;
-      ${shader.vertexShader}
-    `.replace(
-      `gl_PointSize = size;`,
-      `
-      	vVisibility = texture(globeTexture, uv).g; // get value from texture
-        gl_PointSize = size * (vVisibility < 0.5 ? 1. : 0.75); // size depends on the value
-        vNormal = normalMatrix * normalize(position);
-        vMvPosition = -mvPosition.xyz;
-        gl_PointSize *= 0.4 + (dot(normalize(vMvPosition), vNormal) * 0.6); // size depends position in camera space
-      `
-    );
-    //console.log(shader.vertexShader);
-    shader.fragmentShader = `
-    	varying float vVisibility;
-      varying vec3 vNormal;
-      varying vec3 vMvPosition;
-      ${shader.fragmentShader}
-    `.replace(
-      `vec4 diffuseColor = vec4( diffuse, opacity );`,
-      `
-      	bool circ = length(gl_PointCoord - 0.5) > 0.5; // make points round
-        bool vis = dot(vMvPosition, vNormal) < 0.; // visible only on the front side of the sphere
-      	if (circ || vis) discard;
-        
-        vec3 col = diffuse + (vVisibility > 0.5 ? 0.5 : 0.); // make oceans brighter
-        
-        vec4 diffuseColor = vec4( col, opacity );
-      `
-    );
-    //console.log(shader.fragmentShader);
-  }
-});*/
+  g.setAttribute("color", new THREE.Float32BufferAttribute(clr, 3));
+  g.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+  let m = new THREE.PointsMaterial({
+    size: 0.1,
+    vertexColors: true,
+    onBeforeCompile: (shader) => {
+      shader.uniforms.globeTexture = {
+        value: new THREE.TextureLoader().load(imgData)
+      };
+      shader.vertexShader = `
+      	uniform sampler2D globeTexture;
+        varying float vVisibility;
+        varying vec3 vNormal;
+        varying vec3 vMvPosition;
+        ${shader.vertexShader}
+      `.replace(
+        `gl_PointSize = size;`,
+        `
+        	vVisibility = texture(globeTexture, uv).g; // get value from texture
+          gl_PointSize = size * (vVisibility < 0.5 ? 1. : 0.75); // size depends on the value
+          vNormal = normalMatrix * normalize(position);
+          vMvPosition = -mvPosition.xyz;
+          gl_PointSize *= 0.4 + (dot(normalize(vMvPosition), vNormal) * 0.6); // size depends position in camera space
+        `
+      );
+      //console.log(shader.vertexShader);
+      shader.fragmentShader = `
+      	varying float vVisibility;
+        varying vec3 vNormal;
+        varying vec3 vMvPosition;
+        ${shader.fragmentShader}
+      `.replace(
+        `vec4 diffuseColor = vec4( diffuse, opacity );`,
+        `
+        	bool circ = length(gl_PointCoord - 0.5) > 0.5; // make points round
+          bool vis = dot(vMvPosition, vNormal) < 0.; // visible only on the front side of the sphere
+        	if (circ || vis) discard;
+
+          vec3 col = diffuse + (vVisibility > 0.5 ? 0.5 : 0.); // make oceans brighter
+
+          vec4 diffuseColor = vec4( col, opacity );
+        `
+      );
+      //console.log(shader.fragmentShader);
+    }
+  });*/
   //let globe = new THREE.Points(g, m);
   //scene.add(globe);
   import { GUI } from "./js/dat.gui.module.js";
@@ -510,16 +510,16 @@ let m = new THREE.PointsMaterial({
     });
   };
 
-  gui
-    .add(parameters, "GlobeTheme", {
-      day: 0,
-      night: 1,
-      basic: 2,
-      dark: 3,
-    })
-    .onFinishChange(() => {
-      updateAllMaterials();
-    });
+  //gui
+  // .add(parameters, "GlobeTheme", {
+  //  day: 0,
+  // night: 1,
+  // basic: 2,
+  // dark: 3,
+  //})
+  // .onFinishChange(() => {
+  //   updateAllMaterials();
+  //});
 
   //gui.open();
 
@@ -545,41 +545,41 @@ let m = new THREE.PointsMaterial({
 
   const material = new THREE.ShaderMaterial({
     vertexShader: `
-              varying vec2 vertexUV;
-              varying vec3 vertexNormal;
-                 void main() {
-                      vertexUV = uv;
-                      vertexNormal = normalize(normalMatrix * normal);
-                     gl_Position = projectionMatrix
-                     * modelViewMatrix
-                     * vec4(position, 1);
-                   }
-                  `,
-    fragmentShader: `
-                  uniform sampler2D globeTexture;
-                  uniform sampler2D bumpMap;
-                  uniform sampler2D bumpScale;
-                  uniform sampler2D specularMap;
-                  uniform sampler2D specular;
-                  uniform sampler2D shininess; 
-                  varying vec2 vertexUV;
-                  varying vec3 vertexNormal;
+                varying vec2 vertexUV;
+                varying vec3 vertexNormal;
                    void main() {
-                   float intensity = 1.05 - dot(
-                   vertexNormal, vec3(0, 0, 1.0));
-                   vec3 atmosphere = (vec3(0.3, 0.6, 1.0))
-                   * pow(intensity, 1.5);
-                      gl_FragColor = vec4(atmosphere +texture2D(globeTexture, vertexUV).xyz, 1.0),
-                       vec4(atmosphere +texture2D(bumpMap, vertexUV).xyz, 2.0);                                  
-                   }
-                  `,
+                        vertexUV = uv;
+                        vertexNormal = normalize(normalMatrix * normal);
+                       gl_Position = projectionMatrix
+                       * modelViewMatrix
+                       * vec4(position, 1);
+                     }
+                    `,
+    fragmentShader: `
+                    uniform sampler2D globeTexture;
+                    uniform sampler2D bumpMap;
+                    uniform sampler2D bumpScale;
+                    uniform sampler2D specularMap;
+                    uniform sampler2D specular;
+                    uniform sampler2D shininess;
+                    varying vec2 vertexUV;
+                    varying vec3 vertexNormal;
+                     void main() {
+                     float intensity = 1.05 - dot(
+                     vertexNormal, vec3(0, 0, 1.0));
+                     vec3 atmosphere = (vec3(0.3, 0.6, 1.0))
+                     * pow(intensity, 1.5);
+                        gl_FragColor = vec4(atmosphere +texture2D(globeTexture, vertexUV).xyz, 1.0),
+                         vec4(atmosphere +texture2D(bumpMap, vertexUV).xyz, 2.0);
+                     }
+                    `,
 
     uniforms: {
       /*"color": { value: new THREE.Color( 0xffffff ) },
-			"diffuse": { value: new THREE.Color( 0xffffff ) },*/
+  			"diffuse": { value: new THREE.Color( 0xffffff ) },*/
       specular: { value: new THREE.Color("grey") },
       /*"emissive": { value: new THREE.Color( 0x000000 ) },
-			"opacity": { value: 1 },*/
+  			"opacity": { value: 1 },*/
       shininess: { value: 15 },
       bumpMap: {
         value: new THREE.TextureLoader().load(
@@ -600,8 +600,8 @@ let m = new THREE.PointsMaterial({
         value: "",
       },
       /*bump: {
-                        value: new THREE.TextureLoader().load("//unpkg.com/three-globe/example/img/earth-topology.png")
-                        }*/
+                          value: new THREE.TextureLoader().load("//unpkg.com/three-globe/example/img/earth-topology.png")
+                          }*/
     },
   });
 
@@ -609,22 +609,22 @@ let m = new THREE.PointsMaterial({
     new THREE.SphereGeometry(5.1, 32.1, 32.1),
     new THREE.ShaderMaterial({
       vertexShader: `
-              varying vec3 vertexNormal;
-                 void main() {
-                      vertexNormal = normalize(normalMatrix * normal);
-                     gl_Position = projectionMatrix
-                     * modelViewMatrix
-                     * vec4(position, 1);
-                   }
-                  `,
+                varying vec3 vertexNormal;
+                   void main() {
+                        vertexNormal = normalize(normalMatrix * normal);
+                       gl_Position = projectionMatrix
+                       * modelViewMatrix
+                       * vec4(position, 1);
+                     }
+                    `,
       fragmentShader: `
-              varying vec3 vertexNormal;
-                  void main() {
-                  float intensity = pow(0.6 - dot(
-                   vertexNormal, vec3(0, 0, 1.0)), 2.0);
-                   gl_FragColor = vec4(0.3, 0.6, 1.0, 1.0) * intensity;
-                  }
-                  `,
+                varying vec3 vertexNormal;
+                    void main() {
+                    float intensity = pow(0.6 - dot(
+                     vertexNormal, vec3(0, 0, 1.0)), 2.0);
+                     gl_FragColor = vec4(0.3, 0.6, 1.0, 1.0) * intensity;
+                    }
+                    `,
       blending: THREE.AdditiveBlending,
       side: THREE.BackSide,
     })
@@ -704,15 +704,15 @@ let m = new THREE.PointsMaterial({
   scene.add(light);
   // custom globe material
   /* const globeMaterial = globe.material();
-    globeMaterial.bumpScale = 10;
-    new THREE.TextureLoader().load(
-      "//unpkg.com/three-globe/example/img/earth-water.png",
-      (texture) => {
-        globeMaterial.specularMap = texture;
-        globeMaterial.specular = new THREE.Color("grey");
-        globeMaterial.shininess = 15;
-      }
-    );*/
+      globeMaterial.bumpScale = 10;
+      new THREE.TextureLoader().load(
+        "//unpkg.com/three-globe/example/img/earth-water.png",
+        (texture) => {
+          globeMaterial.specularMap = texture;
+          globeMaterial.specular = new THREE.Color("grey");
+          globeMaterial.shininess = 15;
+        }
+      );*/
   // <ICOSAHEDRON>
   //let icshdrn = new THREE.Mesh(new THREE.IcosahedronGeometry(rad, 1), new THREE//.MeshBasicMaterial({color: 0x647f7f, wireframe: true}));
   //globe.add(icshdrn);
@@ -729,35 +729,35 @@ let m = new THREE.PointsMaterial({
     onBeforeCompile: (shader) => {
       shader.uniforms.time = globalUniforms.time;
       shader.vertexShader = `
-    	attribute float phase;
-      varying float vPhase;
-      ${shader.vertexShader}
-    `.replace(
+      	attribute float phase;
+        varying float vPhase;
+        ${shader.vertexShader}
+      `.replace(
         `#include <begin_vertex>`,
         `#include <begin_vertex>
-      	vPhase = phase; // de-synch of ripples
-      `
+        	vPhase = phase; // de-synch of ripples
+        `
       );
       //console.log(shader.vertexShader);
       shader.fragmentShader = `
-    	uniform float time;
-      varying float vPhase;
-    	${shader.fragmentShader}
-    `.replace(
+      	uniform float time;
+        varying float vPhase;
+      	${shader.fragmentShader}
+      `.replace(
         `vec4 diffuseColor = vec4( diffuse, opacity );`,
         `
-      vec2 lUv = (vUv - 0.5) * 2.;
-      float val = 0.;
-      float lenUv = length(lUv);
-      val = max(val, 1. - step(0.25, lenUv)); // central circle
-      val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
-      
-      float tShift = fract(time * 0.5 + vPhase);
-      val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
-      
-      if (val < 0.5) discard;
-      
-      vec4 diffuseColor = vec4( diffuse, opacity );`
+        vec2 lUv = (vUv - 0.5) * 2.;
+        float val = 0.;
+        float lenUv = length(lUv);
+        val = max(val, 1. - step(0.25, lenUv)); // central circle
+        val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
+
+        float tShift = fract(time * 0.5 + vPhase);
+        val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
+
+        if (val < 0.5) discard;
+
+        vec4 diffuseColor = vec4( diffuse, opacity );`
       );
       //console.log(shader.fragmentShader)
     },
@@ -783,15 +783,15 @@ let m = new THREE.PointsMaterial({
     });
   }
   /*function placeObjectOnPlanet(dummy, 41, -20, 5) {
-    var latRad = 41 * (Math.PI / 180);
-    var lonRad = -20 * (Math.PI / 180);
-    dummy.position.set(
-        Math.cos(latRad) * Math.cos(lonRad) * radius,
-        Math.sin(latRad) * radius,
-        Math.cos(latRad) * Math.sin(lonRad) * radius
-    );
-    object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
-}*/
+      var latRad = 41 * (Math.PI / 180);
+      var lonRad = -20 * (Math.PI / 180);
+      dummy.position.set(
+          Math.cos(latRad) * Math.cos(lonRad) * radius,
+          Math.sin(latRad) * radius,
+          Math.cos(latRad) * Math.sin(lonRad) * radius
+      );
+      object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+  }*/
   gMarker.setAttribute(
     "phase",
     new THREE.InstancedBufferAttribute(new Float32Array(phase), 1)
@@ -809,35 +809,35 @@ let m = new THREE.PointsMaterial({
     onBeforeCompile: (shader) => {
       shader.uniforms.time = globalUniforms.time;
       shader.vertexShader = `
-    	attribute float phase;
-      varying float vPhase;
-      ${shader.vertexShader}
-    `.replace(
+      	attribute float phase;
+        varying float vPhase;
+        ${shader.vertexShader}
+      `.replace(
         `#include <begin_vertex>`,
         `#include <begin_vertex>
-      	vPhase = phase; // de-synch of ripples
-      `
+        	vPhase = phase; // de-synch of ripples
+        `
       );
       //console.log(shader.vertexShader);
       shader.fragmentShader = `
-    	uniform float time;
-      varying float vPhase;
-    	${shader.fragmentShader}
-    `.replace(
+      	uniform float time;
+        varying float vPhase;
+      	${shader.fragmentShader}
+      `.replace(
         `vec4 diffuseColor = vec4( diffuse, opacity );`,
         `
-      vec2 lUv = (vUv - 0.5) * 2.;
-      float val = 0.;
-      float lenUv = length(lUv);
-      val = max(val, 1. - step(0.25, lenUv)); // central circle
-      val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
-      
-      float tShift = fract(time * 0.5 + vPhase);
-      val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
-      
-      if (val < 0.5) discard;
-      
-      vec4 diffuseColor = vec4( diffuse, opacity );`
+        vec2 lUv = (vUv - 0.5) * 2.;
+        float val = 0.;
+        float lenUv = length(lUv);
+        val = max(val, 1. - step(0.25, lenUv)); // central circle
+        val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
+
+        float tShift = fract(time * 0.5 + vPhase);
+        val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
+
+        if (val < 0.5) discard;
+
+        vec4 diffuseColor = vec4( diffuse, opacity );`
       );
       //console.log(shader.fragmentShader)
     },
@@ -879,35 +879,35 @@ let m = new THREE.PointsMaterial({
     onBeforeCompile: (shader) => {
       shader.uniforms.time = globalUniforms.time;
       shader.vertexShader = `
-    	attribute float phase;
-      varying float vPhase;
-      ${shader.vertexShader}
-    `.replace(
+      	attribute float phase;
+        varying float vPhase;
+        ${shader.vertexShader}
+      `.replace(
         `#include <begin_vertex>`,
         `#include <begin_vertex>
-      	vPhase = phase; // de-synch of ripples
-      `
+        	vPhase = phase; // de-synch of ripples
+        `
       );
       //console.log(shader.vertexShader);
       shader.fragmentShader = `
-    	uniform float time;
-      varying float vPhase;
-    	${shader.fragmentShader}
-    `.replace(
+      	uniform float time;
+        varying float vPhase;
+      	${shader.fragmentShader}
+      `.replace(
         `vec4 diffuseColor = vec4( diffuse, opacity );`,
         `
-      vec2 lUv = (vUv - 0.5) * 2.;
-      float val = 0.;
-      float lenUv = length(lUv);
-      val = max(val, 1. - step(0.25, lenUv)); // central circle
-      val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
-      
-      float tShift = fract(time * 0.5 + vPhase);
-      val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
-      
-      if (val < 0.5) discard;
-      
-      vec4 diffuseColor = vec4( diffuse, opacity );`
+        vec2 lUv = (vUv - 0.5) * 2.;
+        float val = 0.;
+        float lenUv = length(lUv);
+        val = max(val, 1. - step(0.25, lenUv)); // central circle
+        val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
+
+        float tShift = fract(time * 0.5 + vPhase);
+        val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
+
+        if (val < 0.5) discard;
+
+        vec4 diffuseColor = vec4( diffuse, opacity );`
       );
       //console.log(shader.fragmentShader)
     },
@@ -933,15 +933,15 @@ let m = new THREE.PointsMaterial({
     });
   }
   /*function placeObjectOnPlanet(dummy, 41, -20, 5) {
-    var latRad = 41 * (Math.PI / 180);
-    var lonRad = -20 * (Math.PI / 180);
-    dummy.position.set(
-        Math.cos(latRad) * Math.cos(lonRad) * radius,
-        Math.sin(latRad) * radius,
-        Math.cos(latRad) * Math.sin(lonRad) * radius
-    );
-    object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
-}*/
+      var latRad = 41 * (Math.PI / 180);
+      var lonRad = -20 * (Math.PI / 180);
+      dummy.position.set(
+          Math.cos(latRad) * Math.cos(lonRad) * radius,
+          Math.sin(latRad) * radius,
+          Math.cos(latRad) * Math.sin(lonRad) * radius
+      );
+      object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+  }*/
   gMarker3.setAttribute(
     "phase3",
     new THREE.InstancedBufferAttribute(new Float32Array(phase3), 1)
@@ -958,35 +958,35 @@ let m = new THREE.PointsMaterial({
     onBeforeCompile: (shader) => {
       shader.uniforms.time = globalUniforms.time;
       shader.vertexShader = `
-    	attribute float phase;
-      varying float vPhase;
-      ${shader.vertexShader}
-    `.replace(
+      	attribute float phase;
+        varying float vPhase;
+        ${shader.vertexShader}
+      `.replace(
         `#include <begin_vertex>`,
         `#include <begin_vertex>
-      	vPhase = phase; // de-synch of ripples
-      `
+        	vPhase = phase; // de-synch of ripples
+        `
       );
       //console.log(shader.vertexShader);
       shader.fragmentShader = `
-    	uniform float time;
-      varying float vPhase;
-    	${shader.fragmentShader}
-    `.replace(
+      	uniform float time;
+        varying float vPhase;
+      	${shader.fragmentShader}
+      `.replace(
         `vec4 diffuseColor = vec4( diffuse, opacity );`,
         `
-      vec2 lUv = (vUv - 0.5) * 2.;
-      float val = 0.;
-      float lenUv = length(lUv);
-      val = max(val, 1. - step(0.25, lenUv)); // central circle
-      val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
-      
-      float tShift = fract(time * 0.5 + vPhase);
-      val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
-      
-      if (val < 0.5) discard;
-      
-      vec4 diffuseColor = vec4( diffuse, opacity );`
+        vec2 lUv = (vUv - 0.5) * 2.;
+        float val = 0.;
+        float lenUv = length(lUv);
+        val = max(val, 1. - step(0.25, lenUv)); // central circle
+        val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
+
+        float tShift = fract(time * 0.5 + vPhase);
+        val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
+
+        if (val < 0.5) discard;
+
+        vec4 diffuseColor = vec4( diffuse, opacity );`
       );
       //console.log(shader.fragmentShader)
     },
@@ -1012,15 +1012,15 @@ let m = new THREE.PointsMaterial({
     });
   }
   /*function placeObjectOnPlanet(dummy, 41, -20, 5) {
-    var latRad = 41 * (Math.PI / 180);
-    var lonRad = -20 * (Math.PI / 180);
-    dummy.position.set(
-        Math.cos(latRad) * Math.cos(lonRad) * radius,
-        Math.sin(latRad) * radius,
-        Math.cos(latRad) * Math.sin(lonRad) * radius
-    );
-    object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
-}*/
+      var latRad = 41 * (Math.PI / 180);
+      var lonRad = -20 * (Math.PI / 180);
+      dummy.position.set(
+          Math.cos(latRad) * Math.cos(lonRad) * radius,
+          Math.sin(latRad) * radius,
+          Math.cos(latRad) * Math.sin(lonRad) * radius
+      );
+      object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+  }*/
   gMarker4.setAttribute(
     "phase4",
     new THREE.InstancedBufferAttribute(new Float32Array(phase4), 1)
@@ -1037,35 +1037,35 @@ let m = new THREE.PointsMaterial({
     onBeforeCompile: (shader) => {
       shader.uniforms.time = globalUniforms.time;
       shader.vertexShader = `
-    	attribute float phase;
-      varying float vPhase;
-      ${shader.vertexShader}
-    `.replace(
+      	attribute float phase;
+        varying float vPhase;
+        ${shader.vertexShader}
+      `.replace(
         `#include <begin_vertex>`,
         `#include <begin_vertex>
-      	vPhase = phase; // de-synch of ripples
-      `
+        	vPhase = phase; // de-synch of ripples
+        `
       );
       //console.log(shader.vertexShader);
       shader.fragmentShader = `
-    	uniform float time;
-      varying float vPhase;
-    	${shader.fragmentShader}
-    `.replace(
+      	uniform float time;
+        varying float vPhase;
+      	${shader.fragmentShader}
+      `.replace(
         `vec4 diffuseColor = vec4( diffuse, opacity );`,
         `
-      vec2 lUv = (vUv - 0.5) * 2.;
-      float val = 0.;
-      float lenUv = length(lUv);
-      val = max(val, 1. - step(0.25, lenUv)); // central circle
-      val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
-      
-      float tShift = fract(time * 0.5 + vPhase);
-      val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
-      
-      if (val < 0.5) discard;
-      
-      vec4 diffuseColor = vec4( diffuse, opacity );`
+        vec2 lUv = (vUv - 0.5) * 2.;
+        float val = 0.;
+        float lenUv = length(lUv);
+        val = max(val, 1. - step(0.25, lenUv)); // central circle
+        val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
+
+        float tShift = fract(time * 0.5 + vPhase);
+        val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
+
+        if (val < 0.5) discard;
+
+        vec4 diffuseColor = vec4( diffuse, opacity );`
       );
       //console.log(shader.fragmentShader)
     },
@@ -1091,15 +1091,15 @@ let m = new THREE.PointsMaterial({
     });
   }
   /*function placeObjectOnPlanet(dummy, 41, -20, 5) {
-    var latRad = 41 * (Math.PI / 180);
-    var lonRad = -20 * (Math.PI / 180);
-    dummy.position.set(
-        Math.cos(latRad) * Math.cos(lonRad) * radius,
-        Math.sin(latRad) * radius,
-        Math.cos(latRad) * Math.sin(lonRad) * radius
-    );
-    object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
-}*/
+      var latRad = 41 * (Math.PI / 180);
+      var lonRad = -20 * (Math.PI / 180);
+      dummy.position.set(
+          Math.cos(latRad) * Math.cos(lonRad) * radius,
+          Math.sin(latRad) * radius,
+          Math.cos(latRad) * Math.sin(lonRad) * radius
+      );
+      object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+  }*/
   gMarker5.setAttribute(
     "phase5",
     new THREE.InstancedBufferAttribute(new Float32Array(phase5), 1)
@@ -1116,35 +1116,35 @@ let m = new THREE.PointsMaterial({
     onBeforeCompile: (shader) => {
       shader.uniforms.time = globalUniforms.time;
       shader.vertexShader = `
-    	attribute float phase;
-      varying float vPhase;
-      ${shader.vertexShader}
-    `.replace(
+      	attribute float phase;
+        varying float vPhase;
+        ${shader.vertexShader}
+      `.replace(
         `#include <begin_vertex>`,
         `#include <begin_vertex>
-      	vPhase = phase; // de-synch of ripples
-      `
+        	vPhase = phase; // de-synch of ripples
+        `
       );
       //console.log(shader.vertexShader);
       shader.fragmentShader = `
-    	uniform float time;
-      varying float vPhase;
-    	${shader.fragmentShader}
-    `.replace(
+      	uniform float time;
+        varying float vPhase;
+      	${shader.fragmentShader}
+      `.replace(
         `vec4 diffuseColor = vec4( diffuse, opacity );`,
         `
-      vec2 lUv = (vUv - 0.5) * 2.;
-      float val = 0.;
-      float lenUv = length(lUv);
-      val = max(val, 1. - step(0.25, lenUv)); // central circle
-      val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
-      
-      float tShift = fract(time * 0.5 + vPhase);
-      val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
-      
-      if (val < 0.5) discard;
-      
-      vec4 diffuseColor = vec4( diffuse, opacity );`
+        vec2 lUv = (vUv - 0.5) * 2.;
+        float val = 0.;
+        float lenUv = length(lUv);
+        val = max(val, 1. - step(0.25, lenUv)); // central circle
+        val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
+
+        float tShift = fract(time * 0.5 + vPhase);
+        val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
+
+        if (val < 0.5) discard;
+
+        vec4 diffuseColor = vec4( diffuse, opacity );`
       );
       //console.log(shader.fragmentShader)
     },
@@ -1170,15 +1170,15 @@ let m = new THREE.PointsMaterial({
     });
   }
   /*function placeObjectOnPlanet(dummy, 41, -20, 5) {
-    var latRad = 41 * (Math.PI / 180);
-    var lonRad = -20 * (Math.PI / 180);
-    dummy.position.set(
-        Math.cos(latRad) * Math.cos(lonRad) * radius,
-        Math.sin(latRad) * radius,
-        Math.cos(latRad) * Math.sin(lonRad) * radius
-    );
-    object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
-}*/
+      var latRad = 41 * (Math.PI / 180);
+      var lonRad = -20 * (Math.PI / 180);
+      dummy.position.set(
+          Math.cos(latRad) * Math.cos(lonRad) * radius,
+          Math.sin(latRad) * radius,
+          Math.cos(latRad) * Math.sin(lonRad) * radius
+      );
+      object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+  }*/
   gMarker6.setAttribute(
     "phase6",
     new THREE.InstancedBufferAttribute(new Float32Array(phase6), 1)
@@ -1195,35 +1195,35 @@ let m = new THREE.PointsMaterial({
     onBeforeCompile: (shader) => {
       shader.uniforms.time = globalUniforms.time;
       shader.vertexShader = `
-    	attribute float phase;
-      varying float vPhase;
-      ${shader.vertexShader}
-    `.replace(
+      	attribute float phase;
+        varying float vPhase;
+        ${shader.vertexShader}
+      `.replace(
         `#include <begin_vertex>`,
         `#include <begin_vertex>
-      	vPhase = phase; // de-synch of ripples
-      `
+        	vPhase = phase; // de-synch of ripples
+        `
       );
       //console.log(shader.vertexShader);
       shader.fragmentShader = `
-    	uniform float time;
-      varying float vPhase;
-    	${shader.fragmentShader}
-    `.replace(
+      	uniform float time;
+        varying float vPhase;
+      	${shader.fragmentShader}
+      `.replace(
         `vec4 diffuseColor = vec4( diffuse, opacity );`,
         `
-      vec2 lUv = (vUv - 0.5) * 2.;
-      float val = 0.;
-      float lenUv = length(lUv);
-      val = max(val, 1. - step(0.25, lenUv)); // central circle
-      val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
-      
-      float tShift = fract(time * 0.5 + vPhase);
-      val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
-      
-      if (val < 0.5) discard;
-      
-      vec4 diffuseColor = vec4( diffuse, opacity );`
+        vec2 lUv = (vUv - 0.5) * 2.;
+        float val = 0.;
+        float lenUv = length(lUv);
+        val = max(val, 1. - step(0.25, lenUv)); // central circle
+        val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
+
+        float tShift = fract(time * 0.5 + vPhase);
+        val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
+
+        if (val < 0.5) discard;
+
+        vec4 diffuseColor = vec4( diffuse, opacity );`
       );
       //console.log(shader.fragmentShader)
     },
@@ -1249,15 +1249,15 @@ let m = new THREE.PointsMaterial({
     });
   }
   /*function placeObjectOnPlanet(dummy, 41, -20, 5) {
-    var latRad = 41 * (Math.PI / 180);
-    var lonRad = -20 * (Math.PI / 180);
-    dummy.position.set(
-        Math.cos(latRad) * Math.cos(lonRad) * radius,
-        Math.sin(latRad) * radius,
-        Math.cos(latRad) * Math.sin(lonRad) * radius
-    );
-    object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
-}*/
+      var latRad = 41 * (Math.PI / 180);
+      var lonRad = -20 * (Math.PI / 180);
+      dummy.position.set(
+          Math.cos(latRad) * Math.cos(lonRad) * radius,
+          Math.sin(latRad) * radius,
+          Math.cos(latRad) * Math.sin(lonRad) * radius
+      );
+      object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+  }*/
   gMarker7.setAttribute(
     "phase7",
     new THREE.InstancedBufferAttribute(new Float32Array(phase7), 1)
@@ -1265,7 +1265,6 @@ let m = new THREE.PointsMaterial({
 
   scene.add(markers7);
   // </Markers>
-
   // <Markers>
   const markerCount8 = 1;
   let markerInfo8 = []; // information on markers
@@ -1275,35 +1274,35 @@ let m = new THREE.PointsMaterial({
     onBeforeCompile: (shader) => {
       shader.uniforms.time = globalUniforms.time;
       shader.vertexShader = `
-    	attribute float phase;
-      varying float vPhase;
-      ${shader.vertexShader}
-    `.replace(
+      	attribute float phase;
+        varying float vPhase;
+        ${shader.vertexShader}
+      `.replace(
         `#include <begin_vertex>`,
         `#include <begin_vertex>
-      	vPhase = phase; // de-synch of ripples
-      `
+        	vPhase = phase; // de-synch of ripples
+        `
       );
       //console.log(shader.vertexShader);
       shader.fragmentShader = `
-    	uniform float time;
-      varying float vPhase;
-    	${shader.fragmentShader}
-    `.replace(
+      	uniform float time;
+        varying float vPhase;
+      	${shader.fragmentShader}
+      `.replace(
         `vec4 diffuseColor = vec4( diffuse, opacity );`,
         `
-      vec2 lUv = (vUv - 0.5) * 2.;
-      float val = 0.;
-      float lenUv = length(lUv);
-      val = max(val, 1. - step(0.25, lenUv)); // central circle
-      val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
-      
-      float tShift = fract(time * 0.5 + vPhase);
-      val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
-      
-      if (val < 0.5) discard;
-      
-      vec4 diffuseColor = vec4( diffuse, opacity );`
+        vec2 lUv = (vUv - 0.5) * 2.;
+        float val = 0.;
+        float lenUv = length(lUv);
+        val = max(val, 1. - step(0.25, lenUv)); // central circle
+        val = max(val, step(0.4, lenUv) - step(0.5, lenUv)); // outer circle
+
+        float tShift = fract(time * 0.5 + vPhase);
+        val = max(val, step(0.4 + (tShift * 0.6), lenUv) - step(0.5 + (tShift * 0.5), lenUv)); // ripple
+
+        if (val < 0.5) discard;
+
+        vec4 diffuseColor = vec4( diffuse, opacity );`
       );
       //console.log(shader.fragmentShader)
     },
@@ -1322,22 +1321,22 @@ let m = new THREE.PointsMaterial({
     markers8.setMatrixAt(i8, dummy8.matrix);
     phase8.push(Math.random());
 
-    markerInfo.push({
-      id8: i8 + 1,
+    markerInfo8.push({
+      id8: i + 1,
       mag8: THREE.MathUtils.randInt(1, 10),
       crd8: dummy8.position.clone(),
     });
   }
   /*function placeObjectOnPlanet(dummy, 41, -20, 5) {
-    var latRad = 41 * (Math.PI / 180);
-    var lonRad = -20 * (Math.PI / 180);
-    dummy.position.set(
-        Math.cos(latRad) * Math.cos(lonRad) * radius,
-        Math.sin(latRad) * radius,
-        Math.cos(latRad) * Math.sin(lonRad) * radius
-    );
-    object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
-}*/
+      var latRad = 41 * (Math.PI / 180);
+      var lonRad = -20 * (Math.PI / 180);
+      dummy.position.set(
+          Math.cos(latRad) * Math.cos(lonRad) * radius,
+          Math.sin(latRad) * radius,
+          Math.cos(latRad) * Math.sin(lonRad) * radius
+      );
+      object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+  }*/
   gMarker8.setAttribute(
     "phase8",
     new THREE.InstancedBufferAttribute(new Float32Array(phase8), 1)
@@ -1659,10 +1658,10 @@ let m = new THREE.PointsMaterial({
       let iid = intersections[0].instanceId;
       let mi = markerInfo[iid];
       divID.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/KvlWoI1LBA4uaqbM"></iframe>
-          <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
-         `;
+            <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+           `;
       /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
-    divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
+      divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
       label.position.copy(mi.crd);
       label.element.animate(
         [
@@ -1702,10 +1701,10 @@ let m = new THREE.PointsMaterial({
       let iid2 = intersections2[0].instanceId;
       let mi2 = markerInfo2[iid2];
       divID2.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/VnVI8fK1fBjg7BFU"></iframe>
-          <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
-         `;
+            <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+           `;
       /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
-    divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
+      divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
       label2.position.copy(mi2.crd2);
       label2.element.animate(
         [
@@ -1744,10 +1743,10 @@ let m = new THREE.PointsMaterial({
       let iid3 = intersections3[0].instanceId;
       let mi3 = markerInfo3[iid3];
       divID3.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/tX9piUBYg3CbbVYd"></iframe>
-          <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
-         `;
+            <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+           `;
       /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
-    divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
+      divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
       label3.position.copy(mi3.crd3);
       label3.element.animate(
         [
@@ -1786,10 +1785,10 @@ let m = new THREE.PointsMaterial({
       let iid4 = intersections4[0].instanceId;
       let mi4 = markerInfo4[iid4];
       divID4.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/AoeATofh1LF3KYxM"></iframe>
-          <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
-         `;
+            <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+           `;
       /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
-    divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
+      divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
       label4.position.copy(mi4.crd4);
       label4.element.animate(
         [
@@ -1828,10 +1827,10 @@ let m = new THREE.PointsMaterial({
       let iid5 = intersections5[0].instanceId;
       let mi5 = markerInfo5[iid5];
       divID5.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/U11KcbtNFPIA6QLn"></iframe>
-          <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
-         `;
+            <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+           `;
       /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
-    divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
+      divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
       label5.position.copy(mi5.crd5);
       label5.element.animate(
         [
@@ -1870,10 +1869,10 @@ let m = new THREE.PointsMaterial({
       let iid6 = intersections6[0].instanceId;
       let mi6 = markerInfo6[iid6];
       divID6.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/pjfyCFXkRwWd807i"></iframe>
-          <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
-         `;
+            <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+           `;
       /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
-    divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
+      divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
       label6.position.copy(mi6.crd6);
       label6.element.animate(
         [
@@ -1912,10 +1911,10 @@ let m = new THREE.PointsMaterial({
       let iid7 = intersections7[0].instanceId;
       let mi7 = markerInfo7[iid7];
       divID7.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/OWy3G2SsMWxWY4eW"></iframe>
-          <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
-         `;
+            <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+           `;
       /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
-    divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
+      divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
       label7.position.copy(mi7.crd7);
       label7.element.animate(
         [
@@ -1953,11 +1952,11 @@ let m = new THREE.PointsMaterial({
     if (intersections8.length > 0) {
       let iid8 = intersections8[0].instanceId;
       let mi8 = markerInfo8[iid8];
-      divID8.innerHTML = `<iframe frameborder="0" scrolling="yes' fullscreen="false" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/fR2Gs0573wtnCqJI"></iframe>
-          <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
-         `;
+      divID8.innerHTML = `<iframe frameborder="0" scrolling="no"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/fR2Gs0573wtnCqJI"></iframe>
+            <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+           `;
       /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
-    divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
+      divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
       label8.position.copy(mi8.crd8);
       label8.element.animate(
         [
@@ -1977,7 +1976,6 @@ let m = new THREE.PointsMaterial({
       label8.element.classList.remove("hidden");
     }
   });
-
   let clock = new THREE.Clock();
 
   renderer.setAnimationLoop(() => {
