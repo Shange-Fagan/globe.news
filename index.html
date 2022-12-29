@@ -522,7 +522,7 @@
         child instanceof THREE.Mesh &&
         child.material instanceof THREE.MeshPhongMaterial
       ) {
-        child.material = myTexture[parameters.GlobeTheme];
+        //child.material = myTexture[parameters.GlobeTheme];
         child.material.needsUpdate = true;
         //child.material.map = textureLoader.load("//unpkg.com/three-globe/example/img/earth-blue-marble.jpg");
       }
