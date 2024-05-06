@@ -159,12 +159,13 @@
       width:142px;
       height:186px;
       display: block;
+      
       }
-    
     #idNum9 {
       width:142px;
       height:186px;
       display: block;
+      
       }
     .hidden{
       display: none;
@@ -1388,7 +1389,7 @@
   );
 
   scene.add(markers8);
-  // </Markers>
+   // </Markers>
   // <Markers>
   const markerCount9 = 1;
   let markerInfo9 = []; // information on markers
@@ -1438,12 +1439,12 @@
   let phase9 = [];
 
   for (let i9 = 0; i9 < markerCount9; i9++) {
-    dummy9.position.setFromSphericalCoords(5.1, 0.6, 1.45);
+    dummy9.position.setFromSphericalCoords(5.1, 1.6, 1.45);
     //dummy.position.randomDirection().setLength(rad + 0.1);
     dummy9.lookAt(dummy9.position.clone().setLength(5.1 + 1));
     dummy9.updateMatrix();
     markers9.setMatrixAt(i9, dummy9.matrix);
-    phase9.push(Math.random());
+    phase.push(Math.random());
 
     markerInfo9.push({
       id9: i9 + 1,
@@ -1762,6 +1763,42 @@
     },
   };
   scene.add(label8);
+  // </Label>
+    // <Label>
+  let labelDiv9 = document.getElementById("markerLabel9");
+  let closeBtn9 = document.getElementById("closeButton9");
+  closeBtn9.addEventListener("pointerdown", (event) => {
+    labelDiv9.classList.add("hidden");
+  });
+  let label9 = new CSS2DObject(labelDiv9);
+  label9.userData = {
+    cNormal: new THREE.Vector3(),
+    cPosition: new THREE.Vector3(),
+    mat4: new THREE.Matrix4(),
+    trackVisibility: () => {
+      // the closer to the edge, the less opacity
+      let ud = label9.userData;
+      ud.cNormal
+        .copy(label9.position)
+        .normalize()
+        .applyMatrix3(globe.normalMatrix);
+      ud.cPosition
+        .copy(label9.position)
+        .applyMatrix4(
+          ud.mat4.multiplyMatrices(camera.matrixWorldInverse, globe.matrixWorld)
+        );
+      let d = ud.cPosition.negate().normalize().dot(ud.cNormal);
+      d = smoothstep(0.2, 0.7, d);
+      label.element.style.opacity = d;
+
+      // https://github.com/gre/smoothstep/blob/master/index.js
+      function smoothstep(min, max, value) {
+        var x = Math.max(0, Math.min(1, (value - min) / (max - min)));
+        return x * x * (3 - 2 * x);
+      }
+    },
+  };
+  scene.add(label9);
   // </Label>
   // <Interaction>
   let pointer = new THREE.Vector2();
@@ -2098,6 +2135,48 @@
         }
       );
       label8.element.classList.remove("hidden");
+    }
+  });
+  //<Interaction>
+  let pointer9 = new THREE.Vector2();
+  let raycaster9 = new THREE.Raycaster();
+  let intersections9;
+  let divID9 = document.getElementById("idNum9");
+  let divMag9 = document.getElementById("magnitude");
+  let divCrd9 = document.getElementById("coordinates");
+  window.addEventListener("pointerdown", (event) => {
+    pointer9.x = (event.clientX / window.innerWidth) * 2 - 1;
+    pointer9.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    raycaster9.setFromCamera(pointer9, camera);
+    intersections9 = raycaster9.intersectObject(markers9).filter((m) => {
+      return m.uv.subScalar(0.5).length() * 2 < 0.25; // check, if we're in the central circle only
+    });
+    //console.log(intersections);
+    if (intersections9.length > 0) {
+      let iid9 = intersections9[0].instanceId;
+      let mi9 = markerInfo9[iid9];
+      divID9.innerHTML = `<iframe frameborder="0" scrolling="yes"allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" loading="eager" src="https://rss.app/embed/v1/wall/OWy3G2SsMWxWY4eW"></iframe>
+            <link rel="stylesheet" href="style.css"> <!--Copy this line of code-->
+           `;
+      /*divMag.innerHTML = `Mag: <b>${mi.mag}</b>`;
+      divCrd.innerHTML = `X: <b>${mi.crd.x.toFixed(2)}</b>; Y: <b>${mi.crd.y.toFixed(2)}</b>; Z: <b>${mi.crd.z.toFixed(2)}</b>`;*/
+      label9.position.copy(mi9.crd9);
+      label9.element.animate(
+        [
+          {
+            width: "0px",
+            height: "0px" /*marginTop: "0px", marginLeft: "0px"*/,
+          },
+          {
+            width: "142px",
+            height: "186px" /*marginTop: "-25px", marginLeft: "120px*/,
+          },
+        ],
+        {
+          duration: 250,
+        }
+      );
+      label9.element.classList.remove("hidden");
     }
   });
   let clock = new THREE.Clock();
