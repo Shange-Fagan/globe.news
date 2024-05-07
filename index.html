@@ -1519,19 +1519,19 @@
     mat4: new THREE.Matrix4(),
     trackVisibility: () => {
       // the closer to the edge, the less opacity
-      let ud = label.userData;
+      let ud = label2.userData;
       ud.cNormal
-        .copy(label.position)
+        .copy(label2.position)
         .normalize()
         .applyMatrix3(globe.normalMatrix);
       ud.cPosition
-        .copy(label.position)
+        .copy(label2.position)
         .applyMatrix4(
           ud.mat4.multiplyMatrices(camera.matrixWorldInverse, globe.matrixWorld)
         );
       let d = ud.cPosition.negate().normalize().dot(ud.cNormal);
       d = smoothstep(0.2, 0.7, d);
-      label.element.style.opacity = d;
+      label2.element.style.opacity = d;
 
       // https://github.com/gre/smoothstep/blob/master/index.js
       function smoothstep(min, max, value) {
