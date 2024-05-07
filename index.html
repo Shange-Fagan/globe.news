@@ -1513,30 +1513,30 @@
     labelDiv2.classList.add("hidden");
   });
   let label2 = new CSS2DObject(labelDiv2);
-  label2.userData = {
-    cNormal: new THREE.Vector3(),
-    cPosition: new THREE.Vector3(),
-    mat4: new THREE.Matrix4(),
-    trackVisibility: () => {
+  label2.userData2 = {
+    cNormal2: new THREE.Vector3(),
+    cPosition2: new THREE.Vector3(),
+    mat42: new THREE.Matrix4(),
+    trackVisibility2: () => {
       // the closer to the edge, the less opacity
-      let ud2 = label2.userData;
-      ud2.cNormal
+      let ud2 = label2.userData2;
+      ud2.cNormal2
         .copy(label2.position)
         .normalize()
         .applyMatrix3(globe.normalMatrix);
-      ud2.cPosition
+      ud2.cPosition2
         .copy(label2.position)
         .applyMatrix4(
-          ud2.mat4.multiplyMatrices(camera.matrixWorldInverse, globe.matrixWorld)
+          ud2.mat42.multiplyMatrices(camera.matrixWorldInverse, globe.matrixWorld)
         );
-      let d2 = ud2.cPosition.negate().normalize().dot(ud2.cNormal);
+      let d2 = ud2.cPosition2.negate().normalize().dot(ud2.cNormal2);
       d2 = smoothstep(0.2, 0.7, d2);
       label2.element.style.opacity = d2;
 
       // https://github.com/gre/smoothstep/blob/master/index.js
       function smoothstep(min, max, value) {
-        var x = Math.max(0, Math.min(1, (value - min) / (max - min)));
-        return x * x * (3 - 2 * x);
+        var x2 = Math.max(0, Math.min(1, (value - min) / (max - min)));
+        return x2 * x2 * (3 - 2 * x2);
       }
     },
   };
